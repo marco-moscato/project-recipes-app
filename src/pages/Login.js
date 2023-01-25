@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import rockGlass from '../images/rockGlass.svg';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const history = useHistory();
 
   const btnValidation = () => {
     const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/igm;
@@ -10,8 +13,24 @@ function Login() {
     return !(emailRegex.test(email) && password.length > passwordLength);
   };
 
+  const handleClick = () => {
+    const user = {
+      email,
+    };
+    localStorage.setItem('user', JSON.stringify(user));
+    history.push('/meals');
+  };
+
   return (
-    <div>
+    <div className="meals">
+      <span className="logo">TRYBE</span>
+      <object
+        className="rocksGlass"
+        type="image/svg+xml"
+        data={ rockGlass }
+      >
+        Glass
+      </object>
       <form>
         <label htmlFor="email-input">
           <input
@@ -37,7 +56,7 @@ function Login() {
           data-testid="login-submit-btn"
           type="button"
           disabled={ btnValidation() }
-          // onClick={  }
+          onClick={ handleClick }
         >
           Enter
         </button>
