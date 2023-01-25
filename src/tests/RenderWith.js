@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { Provider } from 'react';
 import { createMemoryHistory } from 'history';
-// import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
 // import { applyMiddleware, createStore } from 'redux';
 import { render } from '@testing-library/react';
