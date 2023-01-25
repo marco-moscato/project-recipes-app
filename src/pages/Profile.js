@@ -1,15 +1,15 @@
 import React from 'react';
 import Header from '../components/Header';
 
-function Meals() {
+function Profile() {
   return (
     <div>
       <Header
-        title="Meals"
-        haveSearch
+        title="Profile"
+        haveSearch={ false }
       />
     </div>
   );
 }
 
-export default Meals;
+export default Profile;
