@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 
 function Header(props) {
   const { title, haveSearch } = props;
+  const history = useHistory();
   return (
     <div>
       <h1
@@ -13,8 +15,9 @@ function Header(props) {
         { title }
       </h1>
       <button
-        id="profile-button"
+        id="profile-top-btn"
         type="button"
+        onClick={ () => history.push('/profile') }
       >
         <img
           data-testid="profile-top-btn"
@@ -25,7 +28,7 @@ function Header(props) {
       { haveSearch
       && (
         <button
-          id="profile-button"
+          id="search-top-btn"
           type="button"
         >
           <img
