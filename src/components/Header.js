@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
+import SearchBar from './SearchBar';
 
 function Header(props) {
   const { title, haveSearch } = props;
   const history = useHistory();
+
+  const [searchBar, setSearchBar] = useState(false);
+
   return (
     <div>
       <h1
@@ -30,6 +34,7 @@ function Header(props) {
         <button
           id="search-top-btn"
           type="button"
+          onClick={ () => setSearchBar(!searchBar) }
         >
           <img
             data-testid="search-top-btn"
@@ -38,6 +43,7 @@ function Header(props) {
           />
         </button>
       )}
+      { searchBar && <SearchBar /> }
     </div>
   );
 }

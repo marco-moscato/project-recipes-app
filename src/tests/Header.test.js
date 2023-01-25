@@ -14,4 +14,12 @@ describe('Testa o componente Header', () => {
     const path = history.location.pathname;
     expect(path).toBe('/profile');
   });
+  it('Ao clicar no ícone de pesquisa, o input é renderizado na tela', () => {
+    renderWithRouter(<Meals />);
+
+    const searchBtn = screen.getByTestId('search-top-btn');
+    userEvent.click(searchBtn);
+    const searchBar = screen.getByTestId('search-input');
+    expect(searchBar).toBeVisible();
+  });
 });
