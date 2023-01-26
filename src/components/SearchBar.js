@@ -1,23 +1,42 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import fetchRecipes from '../services/RecipesApi';
 
 function SearchBar() {
   const [textSearch, setTextSearch] = useState('');
   const [endpoint, setEndpoint] = useState('');
   const [url, setUrl] = useState('');
+  const [changeApi, setChangeApi] = useState('');
+  const [page, setPage] = useState('');
+  const [id, setId] = useState('');
+
+  const { location, push } = useHistory();
+  
+  useEffect(() => {
+    if (location.pathname === '/meals') {
+      setChangeApi('themealdb');
+      setPage('meals');
+      setId('idMeal');
+    }
+    if (location.pathname === '/drinks') {
+      setChangeApi('thecocktaildb');
+      setPage('drinks');
+      setId('idDrink');
+    }
+  }, []);
 
   useEffect(() => {
     switch (endpoint) {
     case 'ingr':
-      setUrl(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${textSearch}`);
+      setUrl(`https://www.${changeApi}.com/api/json/v1/1/filter.php?i=${textSearch}`);
       break;
 
     case 'nome':
-      setUrl(`https://www.themealdb.com/api/json/v1/1/search.php?s=${textSearch}`);
+      setUrl(`https://www.${changeApi}.com/api/json/v1/1/search.php?s=${textSearch}`);
       break;
 
     case 'first':
-      setUrl(`https://www.themealdb.com/api/json/v1/1/search.php?f=${textSearch}`);
+      setUrl(`https://www.${changeApi}.com/api/json/v1/1/search.php?f=${textSearch}`);
       break;
 
     default:
@@ -28,7 +47,13 @@ function SearchBar() {
   const handleClik = async () => {
     const alert = 'Your search must have only 1 (one) character';
     if (textSearch.length !== 1 && endpoint === 'first') global.alert(alert);
-    await fetchRecipes(url);
+    const recipes = await fetchRecipes(url);
+
+    if (recipes[page].length === 1) {
+      push(`/${page}/${recipes[page][0][id]}`);
+    }
+
+    return recipes;
   };
 
   return (

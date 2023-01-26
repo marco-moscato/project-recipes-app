@@ -9,6 +9,8 @@ import Profile from './pages/Profile';
 import DoneRecipes from './pages/DoneRecipes';
 import FavoriteRecipes from './pages/FavoriteRecipes';
 import RecipesProvider from './context/RecipesProvider';
+import MealRecipe from './pages/MealRecipe';
+import DrinkRecipe from './pages/DrinkRecipe';
 // OPENING PR
 
 function App() {
@@ -22,9 +24,9 @@ function App() {
           <Route exact path="/profile" component={ Profile } />
           <Route exact path="/done-recipes" component={ DoneRecipes } />
           <Route exact path="/favorite-recipes" component={ FavoriteRecipes } />
-          {/* <Route exact path="/meals/:id" component={  } />
-          <Route exact path="/drinks/:id" component={  } />
-          <Route path="/drinks/:id/in-progress" component={  } />
+          <Route exact path="/meals/:id" component={ MealRecipe } />
+          <Route exact path="/drinks/:id" component={ DrinkRecipe } />
+          {/* <Route path="/drinks/:id/in-progress" component={  } />
           <Route path="/meals/:id/in-progress" component={  } /> */}
         </Switch>
       </RecipesProvider>
