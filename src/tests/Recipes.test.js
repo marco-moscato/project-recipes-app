@@ -3,7 +3,6 @@ import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { renderWithRouter } from './RenderWith';
 import Meals from '../pages/Meals';
-import fetch from '../../cypress/mocks/fetch';
 import mealsByIngredient from '../../cypress/mocks/mealsByIngredient';
 import RecipesProvider from '../context/RecipesProvider';
 
