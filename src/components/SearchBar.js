@@ -11,7 +11,7 @@ function SearchBar() {
   const [id, setId] = useState('');
 
   const { location, push } = useHistory();
-  
+
   useEffect(() => {
     if (location.pathname === '/meals') {
       setChangeApi('themealdb');
@@ -23,7 +23,7 @@ function SearchBar() {
       setPage('drinks');
       setId('idDrink');
     }
-  }, []);
+  }, [location.pathname]);
 
   useEffect(() => {
     switch (endpoint) {
@@ -42,11 +42,11 @@ function SearchBar() {
     default:
       setUrl('');
     }
-  }, [textSearch, endpoint]);
+  }, [textSearch, endpoint, changeApi]);
 
   const handleClik = async () => {
     const alert = 'Your search must have only 1 (one) character';
-    if (textSearch.length !== 1 && endpoint === 'first') global.alert(alert);
+    if (textSearch.length !== 1 && endpoint === 'first') return global.alert(alert);
     const recipes = await fetchRecipes(url);
 
     if (recipes[page].length === 1) {
