@@ -1,5 +1,5 @@
 import React from 'react';
-import { screen, waitFor } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { renderWithRouter } from './RenderWith';
 import App from '../App';
@@ -10,7 +10,7 @@ describe('Testa o componente Footer', () => {
   const passwordId = 'password-input';
   const emailTest = 'teste@trybe.com';
 
-  it('Ao clicar no ícone de perfil, vai para a rota /profile', async () => {
+  it('Ao clicar no ícone de meals e drinks, vai para a sua respectiva rota', () => {
     const { history } = renderWithRouter(<App />);
 
     const emailInput = screen.getByTestId(emailId);
@@ -29,17 +29,6 @@ describe('Testa o componente Footer', () => {
 
     const drinkIcon = screen.getByTestId('drinks-bottom-btn');
     userEvent.click(drinkIcon);
-    console.log(history);
-    // await waitFor(() => expect(path).toBe('/drinks'));
     expect(history.location.pathname).toBe('/drinks');
   });
-
-  //   it.todo('Ao clicar no ícone de pesquisa, o input é renderizado na tela', () => {
-  //     renderWithRouter(<Meals />);
-
-//     const searchBtn = screen.getByTestId('search-top-btn');
-//     userEvent.click(searchBtn);
-//     const searchBar = screen.getByTestId('search-input');
-//     expect(searchBar).toBeVisible();
-//   });
 });

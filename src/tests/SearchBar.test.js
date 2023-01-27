@@ -76,9 +76,8 @@ describe('Testa o componente SearchBar', () => {
     const inputText = screen.getByTestId(searchInput);
     userEvent.type(inputText, 'Ribollita');
     userEvent.click(nameInput);
-    // const path = history.location.pathname;
+
     await waitFor(() => {
-      // console.log(history);
       userEvent.click(radioBtn);
     });
     await waitFor(() => {
