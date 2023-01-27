@@ -1,31 +1,41 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import RecipesContext from '../context/RecipesContext';
+import fetchRecipes from '../services/RecipesApi';
 
 function Recipes() {
-  const { data } = useContext(RecipesContext);
+  const { data, setData } = useContext(RecipesContext);
   const [path, setPath] = useState('');
   const [strName, setStrName] = useState('');
   const [strThumb, setStrThumb] = useState('');
   const { location } = useHistory();
   const magic = 12;
+  const [url, setUrl] = useState('');
 
   const renderRecipes = () => {
     if (location.pathname === '/meals') {
       setPath('meals');
       setStrName('strMeal');
       setStrThumb('strMealThumb');
+      setUrl('https://www.themealdb.com/api/json/v1/1/search.php?s=');
     }
     if (location.pathname === '/drinks') {
       setPath('drinks');
       setStrName('strDrink');
       setStrThumb('strDrinkThumb');
+      setUrl('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
     }
   };
 
   useEffect(() => {
+    const test = async () => {
+      if (!data) await setData(await fetchRecipes(url));
+      console.log(data);
+      console.log(await fetchRecipes(url));
+    };
     renderRecipes();
-  }, [data]);
+    test();
+  }, []);
 
   return (
     <>
