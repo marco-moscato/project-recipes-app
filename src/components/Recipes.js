@@ -26,16 +26,16 @@ function Recipes() {
       setUrl('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
     }
   };
+  const test = async () => {
+    if (!data) setData(await fetchRecipes(url));
+    console.log(data);
+    console.log(await fetchRecipes(url));
+  };
 
   useEffect(() => {
-    const test = async () => {
-      if (!data) await setData(await fetchRecipes(url));
-      console.log(data);
-      console.log(await fetchRecipes(url));
-    };
     renderRecipes();
     test();
-  }, []);
+  }, [data]);
 
   return (
     <>
