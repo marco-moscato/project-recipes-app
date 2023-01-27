@@ -66,7 +66,6 @@ describe('Testa o componente SearchBar', () => {
     act(() => {
       history.push('/meals');
     });
-    const path = history.location.pathname;
 
     const searchBtn = screen.getByTestId(idSearch);
     userEvent.click(searchBtn);
@@ -77,12 +76,13 @@ describe('Testa o componente SearchBar', () => {
     const inputText = screen.getByTestId(searchInput);
     userEvent.type(inputText, 'Ribollita');
     userEvent.click(nameInput);
+    // const path = history.location.pathname;
     await waitFor(() => {
-      console.log(history);
+      // console.log(history);
       userEvent.click(radioBtn);
     });
     await waitFor(() => {
-      expect(path).toBe('/52811');
+      expect(history.location.pathname).toBe('/meals/52811');
     });
   });
   it('Verifica se ao digitar 2 caracteres e pesquisar por First Letter é renderizado o alerta', async () => {
