@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import RecipesContext from '../context/RecipesContext';
 import fetchRecipes from '../services/RecipesApi';
 
 function SearchBar() {
@@ -10,6 +11,7 @@ function SearchBar() {
   const [page, setPage] = useState('');
   const [id, setId] = useState('');
 
+  const { setData } = useContext(RecipesContext);
   const { location, push } = useHistory();
 
   useEffect(() => {
@@ -46,14 +48,21 @@ function SearchBar() {
 
   const handleClik = async () => {
     const alert = 'Your search must have only 1 (one) character';
-    if (textSearch.length !== 1 && endpoint === 'first') return global.alert(alert);
+
+    if (textSearch.length !== 1 && endpoint === 'first') {
+      return global.alert(alert);
+    }
     const recipes = await fetchRecipes(url);
 
-    if (recipes[page].length === 1) {
-      push(`/${page}/${recipes[page][0][id]}`);
+    if (recipes[page] === null) {
+      return global.alert('Sorry, we haven\'t found any recipes for these filters.');
     }
 
-    return recipes;
+    if (recipes[page].length === 1) {
+      return push(`/${page}/${recipes[page][0][id]}`);
+    }
+
+    return setData(recipes);
   };
 
   return (
