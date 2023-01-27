@@ -62,7 +62,7 @@ function SearchBar() {
       return push(`/${page}/${recipes[page][0][id]}`);
     }
 
-    return setData(recipes);
+    setData(recipes);
   };
 
   return (
