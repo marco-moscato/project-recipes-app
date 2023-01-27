@@ -1,5 +1,6 @@
 import React from 'react';
 import Header from '../components/Header';
+import Recipes from '../components/Recipes';
 
 function Drinks() {
   return (
@@ -8,6 +9,7 @@ function Drinks() {
         title="Drinks"
         haveSearch
       />
+      <Recipes />
     </div>
   );
 }

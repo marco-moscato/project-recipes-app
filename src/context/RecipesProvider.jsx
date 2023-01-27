@@ -12,7 +12,6 @@ function RecipesProvider({ children }) {
     }),
     [data],
   );
-  console.log(data);
   return (
     <RecipesContext.Provider value={ contextValue }>
       {children}
