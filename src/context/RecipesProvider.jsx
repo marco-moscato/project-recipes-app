@@ -6,6 +6,7 @@ function RecipesProvider({ children }) {
   const [data, setData] = useState('');
   const [categoryRecipes, setCategoryRecipes] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [toggleOn, setToggleOn] = useState(false);
 
   const contextValue = useMemo(
     () => ({
@@ -15,11 +16,14 @@ function RecipesProvider({ children }) {
       setCategoryRecipes,
       isLoading,
       setIsLoading,
+      toggleOn,
+      setToggleOn,
     }),
     [
       data,
       categoryRecipes,
       isLoading,
+      toggleOn,
     ],
   );
   return (

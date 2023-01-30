@@ -6,7 +6,8 @@ import RecipesContext from '../context/RecipesContext';
 function FilterByCategory(props) {
   const { url, path } = props;
   const [categories, setCategories] = useState([]);
-  const { setCategoryRecipes } = useContext(RecipesContext);
+  const { setCategoryRecipes, toggleOn, setToggleOn } = useContext(RecipesContext);
+  // const [toggleOn, setToggleOn] = useState(false);
 
   useEffect(() => {
     const fetchCategory = async () => {
@@ -21,16 +22,26 @@ function FilterByCategory(props) {
     fetchCategory();
   }, [url, path]);
 
+  /* lógica do botão toggle ainda não esta correta */
   const handleClick = async (param) => {
     if (path === 'meals') {
-      const callApi = await fetchRecipes(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${param}`);
-      setCategoryRecipes(callApi.meals);
-      // setIsLoading(true);
+      if (toggleOn) {
+        const callApi = await fetchRecipes(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${param}`);
+        setCategoryRecipes(callApi.meals);
+        setToggleOn(!toggleOn);
+      } else {
+        setCategoryRecipes(null);
+        setToggleOn(!toggleOn);
+      }
     }
     if (path === 'drinks') {
-      const callApi = await fetchRecipes(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${param}`);
-      setCategoryRecipes(callApi.drinks);
-      // setIsLoading(true);
+      if (toggleOn) {
+        setCategoryRecipes(null);
+        setToggleOn(!toggleOn);
+      } else {
+        const callApi = await fetchRecipes(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${param}`);
+        setCategoryRecipes(callApi.drinks);
+      }
     }
     console.log(path);
   };
