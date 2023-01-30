@@ -13,6 +13,7 @@ function Recipes() {
   const [urlCategory, setUrlCategory] = useState('');
   const { location } = useHistory();
   const magic = 12;
+  const [recipes, setRecipes] = useState(null);
 
   const renderRecipes = () => {
     if (location.pathname === '/meals') {
@@ -30,20 +31,27 @@ function Recipes() {
       setUrlCategory('https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list');
     }
   };
-  const test = async () => {
-    if (!data) setData(await fetchRecipes(url));
+  const test = async (param) => {
+    if (!data && param) {
+      const callApi = await fetchRecipes(param);
+      setRecipes(callApi);
+    }
   };
 
   useEffect(() => {
     renderRecipes();
-    test();
-  }, [data]);
+    test(url);
+  }, [url]);
+
+  useEffect(() => {
+    renderRecipes();
+  }, []);
 
   return (
     <>
-      <FilterByCategory value={ urlCategory } />
+      <FilterByCategory url={urlCategory} path={path} />
       Recipes
-      { data && data[path].map((recipe, index) => (
+      { recipes && recipes[location.pathname.replace('/', '')].map((recipe, index) => (
         index < magic
           && (
             <div key={ index } data-testid={ `${index}-recipe-card` }>
