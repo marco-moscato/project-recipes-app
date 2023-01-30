@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import RecipesContext from '../context/RecipesContext';
@@ -5,7 +6,7 @@ import fetchRecipes from '../services/RecipesApi';
 import FilterByCategory from './FilterByCategory';
 
 function Recipes() {
-  const { data, setData } = useContext(RecipesContext);
+  const { data, categoryRecipes, setCategoryRecipes } = useContext(RecipesContext);
   const [path, setPath] = useState('');
   const [strName, setStrName] = useState('');
   const [strThumb, setStrThumb] = useState('');
@@ -14,6 +15,7 @@ function Recipes() {
   const { location } = useHistory();
   const magic = 12;
   const [recipes, setRecipes] = useState(null);
+  // const [isLoading, setIsLoading] = useState(false);
 
   const renderRecipes = () => {
     if (location.pathname === '/meals') {
@@ -47,12 +49,31 @@ function Recipes() {
     renderRecipes();
   }, []);
 
+  useEffect(() => {
+    console.log(categoryRecipes, 'entra no didUpdate do categoryRecipes');
+    setCategoryRecipes(categoryRecipes);
+    // setRecipes(categoryRecipes);
+  }, [categoryRecipes]);
+
+  const resetFilters = () => {
+    setCategoryRecipes(null);
+  };
+
   return (
     <>
-      <FilterByCategory url={urlCategory} path={path} />
+      <FilterByCategory url={ urlCategory } path={ path } />
+      <button
+        data-testid="All-category-filter"
+        type="button"
+        onClick={ () => resetFilters() }
+      >
+        All
+
+      </button>
       Recipes
-      { recipes && recipes[location.pathname.replace('/', '')].map((recipe, index) => (
-        index < magic
+      {
+        categoryRecipes ? (categoryRecipes.map((recipe, index) => (
+          index < magic
           && (
             <div key={ index } data-testid={ `${index}-recipe-card` }>
               <img
@@ -63,7 +84,22 @@ function Recipes() {
               <p data-testid={ `${index}-card-name` }>{ recipe[strName] }</p>
             </div>
           )
-      ))}
+        )))
+          : recipes && recipes[location.pathname.replace('/', '')]
+            .map((recipe, index) => (
+              index < magic
+          && (
+            <div key={ index } data-testid={ `${index}-recipe-card` }>
+              <img
+                data-testid={ `${index}-card-img` }
+                src={ recipe[strThumb] }
+                alt={ recipe[strName] }
+              />
+              <p data-testid={ `${index}-card-name` }>{ recipe[strName] }</p>
+            </div>
+          )
+            ))
+      }
     </>
   );
 }
