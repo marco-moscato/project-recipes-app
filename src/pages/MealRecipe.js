@@ -1,8 +1,9 @@
 import React from 'react';
+import RecipeDetails from '../components/RecipeDetails';
 
 function MealRecipe() {
   return (
-    <div>MealRecipe</div>
+    <RecipeDetails />
   );
 }
 
