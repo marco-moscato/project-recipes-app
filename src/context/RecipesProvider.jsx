@@ -4,13 +4,27 @@ import RecipesContext from './RecipesContext';
 
 function RecipesProvider({ children }) {
   const [data, setData] = useState('');
+  const [categoryRecipes, setCategoryRecipes] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [toggleOn, setToggleOn] = useState(false);
 
   const contextValue = useMemo(
     () => ({
       data,
       setData,
+      categoryRecipes,
+      setCategoryRecipes,
+      isLoading,
+      setIsLoading,
+      toggleOn,
+      setToggleOn,
     }),
-    [data],
+    [
+      data,
+      categoryRecipes,
+      isLoading,
+      toggleOn,
+    ],
   );
   return (
     <RecipesContext.Provider value={ contextValue }>

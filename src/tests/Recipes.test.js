@@ -38,4 +38,9 @@ describe('Testa o componente Recipes', () => {
     const firstRecipe = screen.getByTestId('0-recipe-card');
     expect(firstRecipe).toBeVisible();
   });
+
+  // it('testa pesquisa por ingredient Chicken', () => {
+  //   expect(global.fetch).toHaveBeenCalled(1);
+  //   await waitFor(() => screen.getByText());
+  // });
 });

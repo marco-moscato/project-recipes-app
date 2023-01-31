@@ -1,18 +1,33 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
+import RecipesContext from '../context/RecipesContext';
 import drinkIcon from '../images/drinkIcon.svg';
 import mealIcon from '../images/mealIcon.svg';
 
 function Footer() {
   const history = useHistory();
+  const { setCategoryRecipes } = useContext(RecipesContext);
 
+  // const handleClick = () => {
+  //   if (history.location.pathname === '/drinks') {
+  //     setCategoryRecipes(null);
+  //     history.push('/drinks');
+  //   }
+  //   if (history.location.pathname === '/meals') {
+  //     setCategoryRecipes(null);
+  //     history.push('/meals');
+  //   }
+  // };
   return (
     <footer style={ { position: 'fixed', bottom: '0px' } } data-testid="footer">
       <div>
         <button
           id="drinks-bottom"
           type="button"
-          onClick={ () => history.push('/drinks') }
+          onClick={ () => {
+            setCategoryRecipes(null);
+            history.push('/drinks');
+          } }
         >
           <img
             data-testid="drinks-bottom-btn"
@@ -23,7 +38,10 @@ function Footer() {
         <button
           id="meals-bottom"
           type="button"
-          onClick={ () => history.push('/meals') }
+          onClick={ () => {
+            setCategoryRecipes(null);
+            history.push('/meals');
+          } }
         >
           <img
             data-testid="meals-bottom-btn"
