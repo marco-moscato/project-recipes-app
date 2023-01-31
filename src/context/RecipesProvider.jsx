@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import RecipesContext from './RecipesContext';
+import fetchRecipes from '../services/RecipesApi';
 
 function RecipesProvider({ children }) {
   const [data, setData] = useState('');
