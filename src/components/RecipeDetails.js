@@ -9,6 +9,8 @@ const RecipeDetails = () => {
   const [path, setPath] = useState('');
   const [thumb, setThumb] = useState('');
   const [name, setName] = useState('');
+  const [save, setSave] = useState([]);
+  const [disable, setDisable] = useState(false);
 
   const fetchRecipe = async (param) => {
     const api = await fetchRecipes(param);
@@ -30,33 +32,71 @@ const RecipeDetails = () => {
       setName('strDrink');
     }
   }, []);
-  console.log(recipeDetail);
+  // console.log(recipeDetail);
 
+  const checkedItemSaved = () => {
+    if (!save) { 
+      return null
+    } else {
+      const id = location.pathname.replace('/drinks/', '');
+      save.includes(id) ? setDisable(true) : setDisable(false)
+    }    
+  }
+  
   useEffect(() => {
+    setSave(localStorage.getItem('doneRecipes'))
     fetchRecipe(url);
+    localStorage.setItem('doneRecipes', JSON.stringify(recipeSaved));
+    checkedItemSaved()
   }, [url]);
+  
 
-  // console.log(recipeDetail[path]);
+  const recipeSaved = [
+  {
+    id: 15997,
+  }, 
+  {
+    id: 15900,
+  },
+  {
+    id: 15995,
+  },
+  {
+    id: 13501,
+  },
+]
+
 
   return (
-    (recipeDetail && (recipeDetail[path].map((recipe, index) => (
-      <div
-        key={ index }
-      >
-        <h1
-          data-testid="recipe-title"
-        >
-          {recipe[name]}
-        </h1>
-        <img
-          data-testid="recipe-photo"
-          src={ recipe[thumb] }
-          alt={ recipe[name] }
-        />
-
-      </div>
-    ))
-    ))
+    (
+      recipeDetail && (recipeDetail[path].map((recipe, index) => (
+        <>
+          <div
+            key={ index }
+          >
+            <h1
+              data-testid="recipe-title"
+            >
+              {recipe[name]}
+            </h1>
+            <img
+              data-testid="recipe-photo"
+              src={ recipe[thumb] }
+              alt={ recipe[name] }
+            />
+          {/* {console.log(recipe)} */}
+          </div>
+          {!disable && <button
+            data-testid="start-recipe-btn"
+            type="button"
+            className='startRecipeBtn'
+          >
+            Start Recipe
+          </button>}
+        </>
+      ))
+      )
+    )
   );
 };
 
