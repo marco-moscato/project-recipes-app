@@ -4,6 +4,11 @@ import Header from '../components/Header';
 import DoneRecipes from './DoneRecipes';
 
 function FavoriteRecipes() {
+  // mocks
+  const index = 1;
+  const nationality = 'frech';
+  const category = 'pasta';
+
   return (
     <div>
       <Header
@@ -11,19 +16,12 @@ function FavoriteRecipes() {
         haveSearch={ false }
       />
       <DoneRecipes />
+      <div data-testid={ `${index}-horizontal-top-text` }>
+        {`${nationality} - ${category}` }
+      </div>
       <Footer />
     </div>
   );
 }
 
 export default FavoriteRecipes;
-
-// [{
-//   id: id-da-receita,
-//   type: meal-ou-drink,
-//   nationality: nacionalidade-da-receita-ou-texto-vazio,
-//   category: categoria-da-receita-ou-texto-vazio,
-//   alcoholicOrNot: alcoholic-ou-non-alcoholic-ou-texto-vazio,
-//   name: nome-da-receita,
-//   image: imagem-da-receita
-// }]
