@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import RecipesContext from '../context/RecipesContext';
 import fetchRecipes from '../services/RecipesApi';
 import FilterByCategory from './FilterByCategory';
@@ -10,6 +10,7 @@ function Recipes() {
   const [path, setPath] = useState('');
   const [strName, setStrName] = useState('');
   const [strThumb, setStrThumb] = useState('');
+  const [id, setId] = useState('');
   const [url, setUrl] = useState('');
   const [urlCategory, setUrlCategory] = useState('');
   const { location } = useHistory();
@@ -20,6 +21,7 @@ function Recipes() {
   const renderRecipes = () => {
     if (location.pathname === '/meals') {
       setPath('meals');
+      setId('idMeal');
       setStrName('strMeal');
       setStrThumb('strMealThumb');
       setUrl('https://www.themealdb.com/api/json/v1/1/search.php?s=');
@@ -27,6 +29,7 @@ function Recipes() {
     }
     if (location.pathname === '/drinks') {
       setPath('drinks');
+      setId('idDrink');
       setStrName('strDrink');
       setStrThumb('strDrinkThumb');
       setUrl('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
@@ -75,28 +78,38 @@ function Recipes() {
         categoryRecipes ? (categoryRecipes.map((recipe, index) => (
           index < magic
           && (
-            <div key={ index } data-testid={ `${index}-recipe-card` }>
-              <img
-                data-testid={ `${index}-card-img` }
-                src={ recipe[strThumb] }
-                alt={ recipe[strName] }
-              />
-              <p data-testid={ `${index}-card-name` }>{ recipe[strName] }</p>
-            </div>
+            <Link
+              to={ `/${path}/${recipe[id]}` }
+              key={ index }
+            >
+              <div data-testid={ `${index}-recipe-card` }>
+                <img
+                  data-testid={ `${index}-card-img` }
+                  src={ recipe[strThumb] }
+                  alt={ recipe[strName] }
+                />
+                <p data-testid={ `${index}-card-name` }>{ recipe[strName] }</p>
+              </div>
+            </Link>
           )
         )))
           : recipes && recipes[location.pathname.replace('/', '')]
             .map((recipe, index) => (
               index < magic
           && (
-            <div key={ index } data-testid={ `${index}-recipe-card` }>
-              <img
-                data-testid={ `${index}-card-img` }
-                src={ recipe[strThumb] }
-                alt={ recipe[strName] }
-              />
-              <p data-testid={ `${index}-card-name` }>{ recipe[strName] }</p>
-            </div>
+            <Link
+              to={ `/${path}/${recipe[id]}` }
+              key={ index }
+            >
+              <div data-testid={ `${index}-recipe-card` }>
+                <img
+                  data-testid={ `${index}-card-img` }
+                  src={ recipe[strThumb] }
+                  alt={ recipe[strName] }
+                />
+                <p data-testid={ `${index}-card-name` }>{ recipe[strName] }</p>
+              </div>
+            </Link>
           )
             ))
       }

@@ -22,29 +22,27 @@ function FilterByCategory(props) {
     fetchCategory();
   }, [url, path]);
 
-  /* lógica do botão toggle ainda não esta correta */
   const handleClick = async (param) => {
+    setToggleOn(!toggleOn);
     if (path === 'meals') {
-      if (toggleOn) {
+      if (!toggleOn) {
         const callApi = await fetchRecipes(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${param}`);
         setCategoryRecipes(callApi.meals);
-        setToggleOn(!toggleOn);
       } else {
         setCategoryRecipes(null);
-        setToggleOn(!toggleOn);
       }
     }
     if (path === 'drinks') {
-      if (toggleOn) {
-        setCategoryRecipes(null);
-        setToggleOn(!toggleOn);
-      } else {
+      if (!toggleOn) {
         const callApi = await fetchRecipes(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${param}`);
         setCategoryRecipes(callApi.drinks);
+      } else {
+        setCategoryRecipes(null);
       }
     }
     console.log(path);
   };
+
   const magic5 = 5;
   return (
     <div>
