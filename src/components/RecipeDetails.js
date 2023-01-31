@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import fetchRecipes from '../services/RecipesApi';
 
-function RecipeDetails() {
+const RecipeDetails = () => {
   const { location } = useHistory();
   const [url, setUrl] = useState('');
   const [recipeDetail, setRecipeDetail] = useState(null);
   const [path, setPath] = useState('');
-  // const [thumb, setThumb] = useState('');
-  // const [name, setName] = useState('');
+  const [thumb, setThumb] = useState('');
+  const [name, setName] = useState('');
 
   const fetchRecipe = async (param) => {
     const api = await fetchRecipes(param);
@@ -36,26 +36,28 @@ function RecipeDetails() {
     fetchRecipe(url);
   }, [url]);
 
-  console.log(recipeDetail[path]);
+  // console.log(recipeDetail[path]);
 
   return (
-    <div>RecipeDetails</div>
-    //  ( recipeDetail && (recipeDetail[path].map((recipe, index) => (
-    //     <div
-    //       key={index}
-    //     >
-    //       <h1
-    //         data-testid="recipe-title"
-    //       >{recipe[name]}</h1>
-    //       <img
-    //         data-testid="recipe-photo"
-    //         src={recipe[thumb]}
-    //       />
+    (recipeDetail && (recipeDetail[path].map((recipe, index) => (
+      <div
+        key={ index }
+      >
+        <h1
+          data-testid="recipe-title"
+        >
+          {recipe[name]}
+        </h1>
+        <img
+          data-testid="recipe-photo"
+          src={ recipe[thumb] }
+          alt={ recipe[name] }
+        />
 
-  //     </div>
-  //  ))
-  //  ))
+      </div>
+    ))
+    ))
   );
-}
+};
 
 export default RecipeDetails;
