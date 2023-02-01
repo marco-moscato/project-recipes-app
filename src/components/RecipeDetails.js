@@ -106,10 +106,12 @@ const RecipeDetails = () => {
           >
             <h1
               data-testid="recipe-title"
+              key={ `tittle${index}` }
             >
               {recipe[name]}
             </h1>
             <img
+              key={ `image${index}` }
               data-testid="recipe-photo"
               src={ recipe[thumb] }
               alt={ recipe[name] }
@@ -117,14 +119,16 @@ const RecipeDetails = () => {
             {
               path === 'drinks'
                 ? (
-                    <span
-                      data-testid="recipe-category"
-                    >
-                      {`${recipe.strCategory}(${recipe.strAlcoholic})`}
-                    </span>
-                  )
+                  <span
+                    key={ `category${index}` }
+                    data-testid="recipe-category"
+                  >
+                    {`${recipe.strCategory}(${recipe.strAlcoholic})`}
+                  </span>
+                )
                 : (
                   <span
+                    key={ `category${index}` }
                     data-testid="recipe-category"
                   >
                     {recipe.strCategory}
@@ -132,31 +136,45 @@ const RecipeDetails = () => {
                 )
             }
             <ul
-              data-testid={`${index}-ingredient-name-and-measure`}
+              key={ `ul${index}` }
+               // puxar um filter?
             >
-              <li>{recipe[`strIngredient${index}`]}</li>
+              {Object.keys(recipe)
+                .filter((recipeKey) => recipeKey.includes('Ingredient'))
+                .map((ingredient, i) => (recipe[ingredient] !== null
+                  ? <li
+                      data-testid={ `${i}-ingredient-name-and-measure` }
+                      key={ `ingredient${i}` }
+                    >
+                      { `${recipe[ingredient]} ${recipe[`strMeasure${i+1}`]}`}
+                    </li>
+                  : null))}
+
             </ul>
             <p
               data-testid="instructions"
+              key={ `instruc${index}` }
             >
               {recipe.strInstructions}
             </p>
             {
               path === 'meals' && (
                 <iframe
+                  key={ `frame${index}` }
                   data-testid="video"
-                  src={recipe.strYoutube.replace('watch?v=', 'embed/')}
-                  title={recipe[name]}
+                  src={ recipe.strYoutube.replace('watch?v=', 'embed/') }
+                  title={ recipe[name] }
                 />
               )
             }
           </div>
-          <FavoriteBtn />
-          <ShareBtn />
+          <FavoriteBtn key={`favor${index}`}/>
+          <ShareBtn key={`share${index}`}/>
           {!disable
             && (
               <Link
                 to={ `/${path}/${recipeId}/in-progress` }
+                key={`Link${index}`}
               >
                 <button
                   key={ recipeId + index }
