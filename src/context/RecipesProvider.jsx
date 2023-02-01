@@ -11,6 +11,8 @@ function RecipesProvider({ children }) {
   const [path, setPath] = useState('');
   const [initialAPI, setInitialAPI] = useState(null);
 
+  console.log(path);
+
   const contextValue = useMemo(
     () => ({
       data,

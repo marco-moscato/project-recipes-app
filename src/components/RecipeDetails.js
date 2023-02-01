@@ -4,6 +4,7 @@ import fetchRecipes from '../services/RecipesApi';
 import FavoriteBtn from './FavoriteBtn';
 import ShareBtn from './ShareBtn';
 import '../styles/RecipeDetails.css';
+// import RecipesContext from '../context/RecipesContext';
 
 const RecipeDetails = () => {
   const { location } = useHistory();
@@ -19,11 +20,14 @@ const RecipeDetails = () => {
   const [recommendationAPI, setRecommendationAPI] = useState(null);
   const [recommendationURL, setRecommendationURL] = useState('');
 
+  console.log(recommendationAPI);
+
   const fetchRecipe = async (param) => {
     const api = await fetchRecipes(param);
     setRecipeDetail(api);
   };
   useEffect(() => {
+    // ingredientsList()
     if (location.pathname.includes('/meals')) {
       const id = location.pathname.replace('/meals/', '');
       setRecipeId(id);
@@ -108,7 +112,14 @@ const RecipeDetails = () => {
     recommendationCallAPI(recommendationURL);
   }, [url]);
 
-  console.log(recommendationAPI);
+  // const ingredientsList = () => {
+  //   if (recipeDetail.length > 0) {
+  //     const Ingredients = Object.entries(recipeDetail[0])
+  //       .filter((e) => e[0].includes('strIngredient') && e[1] !== '' && e[1] !== null)
+  //       .map((e) => e[1]);
+  //     console.log(Ingredients); ;
+  //   }
+  // };
 
   return (
     (
@@ -123,6 +134,7 @@ const RecipeDetails = () => {
             >
               {recipe[name]}
             </h1>
+            {/* {console.log(recipe)} */}
             <img
               key={ `image${index}` }
               data-testid="recipe-photo"
@@ -156,7 +168,7 @@ const RecipeDetails = () => {
               {Object.keys(recipe)
                 .filter((recipeKey) => recipeKey.includes('Ingredient'))
                 .map((ingredient, i) => (
-                  recipe[ingredient] !== ''
+                  recipe[ingredient] !== null
                     ? (
                       <li
                         data-testid={ `${i}-ingredient-name-and-measure` }
@@ -185,7 +197,10 @@ const RecipeDetails = () => {
               )
             }
           </div>
-          <FavoriteBtn key={ `favor${index}` } />
+          <FavoriteBtn
+            key={ `favor${index}` }
+            value={ recipeDetail }
+          />
           <ShareBtn key={ `share${index}` } />
           {!disable
             && (
