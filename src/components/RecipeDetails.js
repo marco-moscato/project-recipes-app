@@ -3,6 +3,7 @@ import { Link, useHistory } from 'react-router-dom';
 import fetchRecipes from '../services/RecipesApi';
 import FavoriteBtn from './FavoriteBtn';
 import ShareBtn from './ShareBtn';
+import '../styles/RecipeDetails.css';
 
 const RecipeDetails = () => {
   const { location } = useHistory();
@@ -113,6 +114,7 @@ const RecipeDetails = () => {
             <img
               key={ `image${index}` }
               data-testid="recipe-photo"
+              className="detailImg"
               src={ recipe[thumb] }
               alt={ recipe[name] }
             />
