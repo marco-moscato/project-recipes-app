@@ -44,20 +44,22 @@ const RecipeDetails = () => {
     if (!save) {
       return null;
     }
-    // const id = location.pathname.replace('/drinks/', '');
-    save.includes(recipeId) ? setDisable(true) : setDisable(false);
+    if (save.includes(recipeId)) {
+      return setDisable(true);
+    }
+    return setDisable(false);
   };
 
   const checkedItemInProgress = () => {
-    if (path) {
-      const progress = JSON.parse(localStorage.getItem('inProgressRecipes'));
-      Object.keys(progress[path]).includes(recipeId)
-        ? setTextBtn('Continue Recipe')
-        : console.log(progress);
+    if (!path) {
+      return;
+    }
+    const progress = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    if (Object.keys(progress[path]).includes(recipeId)) {
+      return setTextBtn('Continue Recipe');
     }
   };
 
-  
   //* Simula o finish recipe. item para localstorage
   const recipeSaved = [
     {
@@ -75,17 +77,17 @@ const RecipeDetails = () => {
   ];
   const progressRecipe = {
     drinks: {
-      15997: [1, 2, 3],
-      17222: [1, 2, 3],
+      15997: [1],
+      17222: [1],
       17225: [1],
       178319: [1],
     },
     meals: {
-      52977: [1, 2, 3, 4],
-      52771: [1, 2, 3, 4],
+      52977: [1],
+      52771: [1],
     },
   };
-  
+
   useEffect(() => {
     setSave(localStorage.getItem('doneRecipes'));
     fetchRecipe(url);
@@ -115,18 +117,20 @@ const RecipeDetails = () => {
           <FavoriteBtn />
           <ShareBtn />
           {!disable
-            && <Link
-              to={ `/${path}/${recipeId}/in-progress` }
-            >
-              <button
-                key={ recipeId + index }
-                data-testid="start-recipe-btn"
-                type="button"
-                className="startRecipeBtn"
+            && (
+              <Link
+                to={ `/${path}/${recipeId}/in-progress` }
               >
-                {textBtn}
-              </button>
-            </Link>}
+                <button
+                  key={ recipeId + index }
+                  data-testid="start-recipe-btn"
+                  type="button"
+                  className="startRecipeBtn"
+                >
+                  {textBtn}
+                </button>
+              </Link>
+            )}
         </>
       ))
       )
