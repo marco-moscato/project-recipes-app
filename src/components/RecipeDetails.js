@@ -87,6 +87,7 @@ const RecipeDetails = () => {
       52771: [1],
     },
   };
+  console.log(recipeDetail);
 
   useEffect(() => {
     setSave(localStorage.getItem('doneRecipes'));
@@ -113,6 +114,42 @@ const RecipeDetails = () => {
               src={ recipe[thumb] }
               alt={ recipe[name] }
             />
+            {
+              path === 'drinks'
+                ? (
+                    <span
+                      data-testid="recipe-category"
+                    >
+                      {`${recipe.strCategory}(${recipe.strAlcoholic})`}
+                    </span>
+                  )
+                : (
+                  <span
+                    data-testid="recipe-category"
+                  >
+                    {recipe.strCategory}
+                  </span>
+                )
+            }
+            <ul
+              data-testid={`${index}-ingredient-name-and-measure`}
+            >
+              <li>{recipe[`strIngredient${index}`]}</li>
+            </ul>
+            <p
+              data-testid="instructions"
+            >
+              {recipe.strInstructions}
+            </p>
+            {
+              path === 'meals' && (
+                <iframe
+                  data-testid="video"
+                  src={recipe.strYoutube.replace('watch?v=', 'embed/')}
+                  title={recipe[name]}
+                />
+              )
+            }
           </div>
           <FavoriteBtn />
           <ShareBtn />
