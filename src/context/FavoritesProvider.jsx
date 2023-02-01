@@ -4,10 +4,12 @@ import FavoritesContext from './FavoritesContext';
 import { getLocalStorage } from '../services/localStorage';
 
 function FavoritesProvider({ children }) {
-  const [favorites, setFavorites] = useState([]);
+  const [favMeals, setFavMeals] = useState([]);
+  const [favDrinks, setFavDrinks] = useState([]);
 
   const loadFavorites = () => {
-    setFavorites(getLocalStorage());
+    getLocalStorage()
+      .filter((fav) => (fav.type === 'meal' ? setFavMeals(fav) : setFavDrinks(fav)));
   };
 
   useEffect(() => {
@@ -15,7 +17,7 @@ function FavoritesProvider({ children }) {
   }, []);
 
   return (
-    <FavoritesContext.Provider value={ favorites }>
+    <FavoritesContext.Provider value={ { favMeals, favDrinks } }>
       {children}
     </FavoritesContext.Provider>
   );

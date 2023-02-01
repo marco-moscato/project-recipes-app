@@ -2,8 +2,8 @@ import React from 'react';
 import Header from '../components/Header';
 
 function DoneRecipes() {
-  const index = 1; // mock
-  const tagName = 'tagName'; // mock
+  // const index = 1; // mock
+  // const tagName = 'tagName'; // mock
 
   return (
     <div>
