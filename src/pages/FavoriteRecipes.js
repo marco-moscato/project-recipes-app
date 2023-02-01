@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
-import DoneRecipes from './DoneRecipes';
+// import DoneRecipes from './DoneRecipes';
 import FavoritesContext from '../context/FavoritesContext';
 import ShareBtn from '../components/ShareBtn';
 
@@ -14,7 +14,7 @@ function FavoriteRecipes() {
         title="Favorite Recipes"
         haveSearch={ false }
       />
-      <DoneRecipes />
+      {/* <DoneRecipes /> */}
 
       { favMeals.map((fav) => (
         <div key={ fav.id }>

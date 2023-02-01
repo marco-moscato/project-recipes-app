@@ -21,3 +21,18 @@ const mealToLocalStorage = {
 //     name: nome-da-receita,
 //     image: imagem-da-receita
 // }]
+
+// { favDrinks.map((fav) => (
+//   <div key={ fav.id }>
+//     FavoriteDrinks
+//     <img src={ fav.img } alt={ fav.name } />
+//     Foto da receita
+//     <p>{ fav.name }</p>
+//     {/* <p>{ fav.alcoholicOrNot }</p> */}
+//     <div data-testid={ `${i}-horizontal-top-text` }>
+//       {`${fav.nationality} - ${fav.category}` }
+//     </div>
+//     <ShareBtn />
+//     {/* renderizar botão favorites */}
+//   </div>
+// ))}

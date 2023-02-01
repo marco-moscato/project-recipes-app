@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import FavoritesContext from './FavoritesContext';
 import { getLocalStorage } from '../services/localStorage';
@@ -16,8 +16,19 @@ function FavoritesProvider({ children }) {
     loadFavorites();
   }, []);
 
+  const contextValue = useMemo(
+    () => ({
+      favMeals,
+      favDrinks,
+    }),
+    [
+      favMeals,
+      favDrinks,
+    ],
+  );
+
   return (
-    <FavoritesContext.Provider value={ { favMeals, favDrinks } }>
+    <FavoritesContext.Provider value={ contextValue }>
       {children}
     </FavoritesContext.Provider>
   );
