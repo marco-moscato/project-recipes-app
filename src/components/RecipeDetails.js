@@ -137,19 +137,22 @@ const RecipeDetails = () => {
             }
             <ul
               key={ `ul${index}` }
-               // puxar um filter?
+              // puxar um filter?
             >
               {Object.keys(recipe)
                 .filter((recipeKey) => recipeKey.includes('Ingredient'))
-                .map((ingredient, i) => (recipe[ingredient] !== null
-                  ? <li
-                      data-testid={ `${i}-ingredient-name-and-measure` }
-                      key={ `ingredient${i}` }
-                    >
-                      { `${recipe[ingredient]} ${recipe[`strMeasure${i+1}`]}`}
-                    </li>
-                  : null))}
-
+                .map((ingredient, i) => (
+                  recipe[ingredient] !== null
+                    ? (
+                      <li
+                        data-testid={ `${i}-ingredient-name-and-measure` }
+                        key={ `ingredient${i}` }
+                      >
+                        { `${recipe[ingredient]} ${recipe[`strMeasure${i + 1}`]}`}
+                      </li>
+                    )
+                    : null
+                ))}
             </ul>
             <p
               data-testid="instructions"
@@ -168,13 +171,13 @@ const RecipeDetails = () => {
               )
             }
           </div>
-          <FavoriteBtn key={`favor${index}`}/>
-          <ShareBtn key={`share${index}`}/>
+          <FavoriteBtn key={ `favor${index}` } />
+          <ShareBtn key={ `share${index}` } />
           {!disable
             && (
               <Link
                 to={ `/${path}/${recipeId}/in-progress` }
-                key={`Link${index}`}
+                key={ `Link${index}` }
               >
                 <button
                   key={ recipeId + index }
