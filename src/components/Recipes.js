@@ -6,8 +6,9 @@ import fetchRecipes from '../services/RecipesApi';
 import FilterByCategory from './FilterByCategory';
 
 function Recipes() {
-  const { data, categoryRecipes, setCategoryRecipes } = useContext(RecipesContext);
-  const [path, setPath] = useState('');
+  const { data, categoryRecipes, setCategoryRecipes, path, setPath, initialAPI,
+    setInitialAPI } = useContext(RecipesContext);
+  // const [path, setPath] = useState('');
   const [strName, setStrName] = useState('');
   const [strThumb, setStrThumb] = useState('');
   const [id, setId] = useState('');
@@ -36,30 +37,34 @@ function Recipes() {
       setUrlCategory('https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list');
     }
   };
-  const test = async (param) => {
-    if (!data && param) {
-      const callApi = await fetchRecipes(param);
-      setRecipes(callApi);
-    }
+
+  const initialCallAPI = async (param) => {
+    const callApi = await fetchRecipes(param);
+    setInitialAPI(callApi);
+    setRecipes(callApi);
+    return callApi;
   };
 
   useEffect(() => {
     renderRecipes();
-    test(url);
+    // test(url);
+    initialCallAPI(url);
   }, [url]);
 
   useEffect(() => {
     renderRecipes();
-  }, []);
+    setRecipes(data);
+  }, [data]);
 
-  useEffect(() => {
-    console.log(categoryRecipes, 'entra no didUpdate do categoryRecipes');
-    setCategoryRecipes(categoryRecipes);
-    // setRecipes(categoryRecipes);
-  }, [categoryRecipes]);
+  // useEffect(() => {
+  //   console.log(categoryRecipes, 'entra no didUpdate do categoryRecipes');
+  //   setCategoryRecipes(categoryRecipes);
+  //   // setRecipes(categoryRecipes);
+  // }, [categoryRecipes]);
 
   const resetFilters = () => {
     setCategoryRecipes(null);
+    setRecipes(initialAPI);
   };
 
   return (

@@ -40,7 +40,7 @@ function FilterByCategory(props) {
         setCategoryRecipes(null);
       }
     }
-    console.log(path);
+    // console.log(path);
   };
 
   const magic5 = 5;
