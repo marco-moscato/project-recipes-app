@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import blackHeart from '../images/blackHeartIcon.svg';
@@ -7,12 +7,13 @@ import whiteHeart from '../images/whiteHeartIcon.svg';
 
 function FavoriteBtn(props) {
   const [click, setClick] = useState(true);
+  const [idRecipe, setIdRecipe] = useState('');
   // const { path } = useContext(RecipesContext);
   const { value } = props;
   const { location } = useHistory();
 
-  // console.log(path);
-  const arr = [];
+  // const arr = [];
+  console.log(value);
 
   const checkPath = () => {
     let favoriteRecipe = {};
@@ -26,7 +27,6 @@ function FavoriteBtn(props) {
         name: value.meals[0].strMeal,
         image: value.meals[0].strMealThumb,
       };
-      // return arr.push(favoriteRecipe);
     }
     if (location.pathname.includes('drinks')) {
       favoriteRecipe = {
@@ -38,9 +38,8 @@ function FavoriteBtn(props) {
         name: value.drinks[0].strDrink,
         image: value.drinks[0].strDrinkThumb,
       };
-      // return arr.push(favoriteRecipe);
     }
-    return arr.push(favoriteRecipe);
+    return favoriteRecipe;
   };
 
   // para adicionar e remover FAVORITOS do local storage.
@@ -48,30 +47,65 @@ function FavoriteBtn(props) {
     localStorage.setItem('favoriteRecipes', JSON.stringify(param));
   };
   const getLocalStorage = () => JSON.parse(localStorage.getItem('favoriteRecipes'));
-  // const removeFromLocalStorage = () => localStorage.removeItem('favoriteRecipes');
+  const removeFromLocalStorage = (param) => {
+    // const storage = getLocalStorage();
+    setLocalStorage(param);
+  };
   const setOrGetLocalStorage = (param) => {
-    if (getLocalStorage() !== null) {
-      const getSaved = [...getLocalStorage(), param];
-      setLocalStorage(getSaved);
+    if (getLocalStorage() !== null || getLocalStorage() !== []) {
+      const localSaved = getLocalStorage();
+      // const getSaved = (...localSaved, param)
+      // tá quase certo. tem que ter spread de alguma forma
+      setLocalStorage([...localSaved, param]);
     } else {
       localStorage.setItem('favoriteRecipes', JSON.stringify(param));
-      console.log(param);
-      console.log('entrou no else do setOrGet');
     }
   };
 
+  useEffect(() => {
+    if (location.pathname.includes('meals')) {
+      setIdRecipe(value.meals[0].idMeal);
+    } else {
+      setIdRecipe(value.drinks[0].idDrink);
+    }
+    const storage = getLocalStorage();
+    console.log(storage);
+    if (storage !== null) {
+      console.log(storage);
+      const isOnLocal = storage.some((e) => e.id === idRecipe);
+      setClick(!isOnLocal);
+    }
+  }, [location.pathname, idRecipe, value]);
+
   const handleClick = () => {
-    setClick(!click);
-    checkPath();
-    setOrGetLocalStorage(arr);
+    const storage = getLocalStorage();
+    if (storage !== null) {
+      const isOnLocal = storage.some((e) => e.id === idRecipe);
+      const objeto = storage.filter((e) => e.id !== idRecipe);
+      console.log(isOnLocal);
+      if (isOnLocal) {
+        removeFromLocalStorage(objeto);
+        setClick(!click);
+      } else {
+        setClick(!click);
+        checkPath();
+        setOrGetLocalStorage(checkPath());
+      }
+    } else {
+      setClick(!click);
+      checkPath();
+      setLocalStorage([checkPath()]);
+    }
   };
+
   return (
     <button
-      data-testid="favorite-btn"
+      // data-testid="favorite-btn"
       type="button"
       onClick={ handleClick }
     >
       <img
+        data-testid="favorite-btn"
         src={ click ? whiteHeart : blackHeart }
         alt="heart"
       />
