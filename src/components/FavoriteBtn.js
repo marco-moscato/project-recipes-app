@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import blackHeart from '../images/blackHeartIcon.svg';
