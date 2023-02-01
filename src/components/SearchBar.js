@@ -14,8 +14,6 @@ function SearchBar() {
   const { setData } = useContext(RecipesContext);
   const { location, push } = useHistory();
 
-  console.log(textSearch);
-
   useEffect(() => {
     if (location.pathname === '/meals') {
       setChangeApi('themealdb');

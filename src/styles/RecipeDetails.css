@@ -1,0 +1,23 @@
+.detailImg {
+  width: 450px;
+}
+
+.startRecipeBtn {
+  bottom: 0;
+  position: fixed;
+}
+
+.modal {
+  background-color: rgba(214, 231, 245, 0.5);
+  display: none;
+  height: 30px;
+  position: fixed;
+  text-align: center;
+
+  /* left: 50%; */
+  top: 92%;
+
+  /* border: 2px solid #ff0000; */
+  width: 100%;
+  z-index: 1;
+}
