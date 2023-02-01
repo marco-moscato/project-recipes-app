@@ -8,14 +8,16 @@
 }
 
 .modal {
-  display: none;
-  position: fixed;
-  z-index: 1;
   background-color: rgba(214, 231, 245, 0.5);
-  /* border: 2px solid #ff0000; */
-  width: 100%;
+  display: none;
   height: 30px;
+  position: fixed;
+  text-align: center;
+
   /* left: 50%; */
   top: 92%;
-  text-align: center;
+
+  /* border: 2px solid #ff0000; */
+  width: 100%;
+  z-index: 1;
 }
