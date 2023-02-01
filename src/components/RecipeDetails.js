@@ -16,6 +16,8 @@ const RecipeDetails = () => {
   const [save, setSave] = useState([]);
   const [disable, setDisable] = useState(false);
   const [textBtn, setTextBtn] = useState('Start Recipe');
+  const [recommendationAPI, setRecommendationAPI] = useState(null);
+  const [recommendationURL, setRecommendationURL] = useState('');
 
   const fetchRecipe = async (param) => {
     const api = await fetchRecipes(param);
@@ -29,6 +31,7 @@ const RecipeDetails = () => {
       setPath('meals');
       setThumb('strMealThumb');
       setName('strMeal');
+      setRecommendationURL('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
     }
     if (location.pathname.includes('/drinks')) {
       const id = location.pathname.replace('/drinks/', '');
@@ -37,6 +40,7 @@ const RecipeDetails = () => {
       setPath('drinks');
       setThumb('strDrinkThumb');
       setName('strDrink');
+      setRecommendationURL('https://www.themealdb.com/api/json/v1/1/search.php?s=');
     }
   }, []);
   // console.log(path);
@@ -88,7 +92,11 @@ const RecipeDetails = () => {
       52771: [1],
     },
   };
-  console.log(recipeDetail);
+
+  const recommendationCallAPI = async (param) => {
+    const callApi = await fetchRecipes(param);
+    setRecommendationAPI(callApi);
+  };
 
   useEffect(() => {
     setSave(localStorage.getItem('doneRecipes'));
@@ -97,7 +105,11 @@ const RecipeDetails = () => {
     localStorage.setItem('inProgressRecipes', JSON.stringify(progressRecipe));
     checkedItemSaved();
     checkedItemInProgress();
+    recommendationCallAPI(recommendationURL);
   }, [url]);
+
+  console.log(recommendationAPI);
+
   return (
     (
       recipeDetail && (recipeDetail[path].map((recipe, index) => (
@@ -144,7 +156,7 @@ const RecipeDetails = () => {
               {Object.keys(recipe)
                 .filter((recipeKey) => recipeKey.includes('Ingredient'))
                 .map((ingredient, i) => (
-                  recipe[ingredient] !== null
+                  recipe[ingredient] !== ''
                     ? (
                       <li
                         data-testid={ `${i}-ingredient-name-and-measure` }
