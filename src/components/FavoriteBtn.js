@@ -10,7 +10,7 @@ function FavoriteBtn(props) {
   const { value } = props;
 
   console.log(path);
-  const arr = []; 
+  const arr = [];
 
   const checkPath = () => {
     let favoriteRecipe = {};
@@ -41,7 +41,7 @@ function FavoriteBtn(props) {
 
   const handleClick = () => {
     setClick(!click);
-    checkPath()
+    checkPath();
     localStorage.setItem('favoriteRecipes', JSON.stringify(arr));
   };
   return (
