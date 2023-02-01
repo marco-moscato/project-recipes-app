@@ -1,13 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import DoneRecipes from './DoneRecipes';
+import FavoritesContext from '../context/FavoritesContext';
+import ShareBtn from '../components/ShareBtn';
 
 function FavoriteRecipes() {
-  // mocks
-  const index = 1;
-  const nationality = 'frech';
-  const category = 'pasta';
+  const { favMeals, favDrinks } = useContext(FavoritesContext);
 
   return (
     <div>
@@ -16,9 +15,21 @@ function FavoriteRecipes() {
         haveSearch={ false }
       />
       <DoneRecipes />
-      <div data-testid={ `${index}-horizontal-top-text` }>
-        {`${nationality} - ${category}` }
-      </div>
+
+      { favMeals.map((fav) => (
+        <div key={ fav.id }>
+          FavoriteMeals
+          <img src={ fav.img } alt={ fav.name } />
+          Foto da receita
+          <p>{ fav.name }</p>
+          <div data-testid={ `${fav.id}-horizontal-top-text` }>
+            {`${fav.nationality} - ${fav.category}` }
+          </div>
+          <ShareBtn />
+          {/* renderizar botão favorites */}
+        </div>
+      ))}
+
       <Footer />
     </div>
   );

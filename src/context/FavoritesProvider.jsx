@@ -1,36 +1,21 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import FavoritesContext from './FavoritesContext';
-import { setOrGetLocalStorage } from '../services/localStorage';
+import { getLocalStorage } from '../services/localStorage';
 
 function FavoritesProvider({ children }) {
-  const [sugDrinks, setSugDrinks] = useState([]);
-  const [sugMeals, setSugMeals] = useState([]);
-  const drink = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
-  const meal = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
-  const mealToLocalStorage = {
-    id: '1234',
-    type: 'meal',
-    nationality: 'italian',
-    category: 'pasta',
-    alcoholicOrNot: 'no',
-    name: 'penne a carbonara',
-    image: '',
+  const [favorites, setFavorites] = useState([]);
+
+  const loadFavorites = () => {
+    setFavorites(getLocalStorage());
   };
 
-  //   const callAPI = async () => {
-  //     const reqDrink = await fetchRecipes(drink);
-  //     const reqMeal = await fetchRecipes(meal);
-  //     setSugDrinks(reqDrink);
-  //     setSugMeals(reqMeal);
-  //   };
-  //   callAPI();
-
-  const favorites = () => setOrGetLocalStorage(mealToLocalStorage);
-  favorites();
+  useEffect(() => {
+    loadFavorites();
+  }, []);
 
   return (
-    <FavoritesContext.Provider value={ { sugDrinks, sugMeals } }>
+    <FavoritesContext.Provider value={ favorites }>
       {children}
     </FavoritesContext.Provider>
   );
