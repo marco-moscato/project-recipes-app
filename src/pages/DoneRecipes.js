@@ -2,8 +2,8 @@ import React from 'react';
 import Header from '../components/Header';
 
 function DoneRecipes() {
-  // const index = 1; // mock
-  // const tagName = 'tagName'; // mock
+  const index = 1; // mock
+  const tagName = 'tagName'; // mock
 
   return (
     <div>
@@ -11,7 +11,7 @@ function DoneRecipes() {
         title="Done Recipes"
         haveSearch={ false }
       />
-      
+
       <button data-testid="filter-by-all-btn">All</button>
       <button data-testid="filter-by-meal-btn">Meals</button>
       <button data-testid="filter-by-drink-btn">Drinks</button>
