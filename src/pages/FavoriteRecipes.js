@@ -3,7 +3,8 @@ import Footer from '../components/Footer';
 import Header from '../components/Header';
 import FavoritesContext from '../context/FavoritesContext';
 import ShareBtn from '../components/ShareBtn';
-import FavoriteBtn from '../components/FavoriteBtn';
+// import blackHeart from '../images/blackHeartIcon.svg';
+// import RecipesContext from '../context/RecipesContext';
 
 function FavoriteRecipes() {
   const { favMeals, favDrinks } = useContext(FavoritesContext);
@@ -18,7 +19,7 @@ function FavoriteRecipes() {
       <button
         data-testid="filter-by-meal-btn"
         type="button"
-        onClick={ () => setPath('meal') }
+        // onClick={ () => setPath('meal') }
       >
         Meals
       </button>
@@ -26,7 +27,7 @@ function FavoriteRecipes() {
       <button
         data-testid="filter-by-drink-btn"
         type="button"
-        onClick={ () => setPath('drink') }
+        // onClick={ () => setPath('drink') }
       >
         Drinks
       </button>
@@ -34,22 +35,64 @@ function FavoriteRecipes() {
       <button
         data-testid="filter-by-all-btn"
         type="button"
-        onClick={ () => setPath('') }
+        // onClick={ () => setPath('') }
       >
         All
       </button>
 
-      <img data-testid={ `${index}-horizontal-imag` } src="" alt="" />
-      Imagem da receita
+      { favMeals.lenght > 0 && (favMeals.map((fav, i) => (
+        <div key={ i }>
+          <img
+            data-testid={ `${i}-horizontal-image` }
+            src={ fav.image }
+            alt={ fav.name }
+          />
+          <p data-testid={ `${i}-horizontal-name` }>{ fav.name }</p>
+          <p data-testid={ `${i}-horizontal-top-text` }>
+            { `${fav.nationality} - ${fav.category}` }
+          </p>
+          <ShareBtn />
+          <button
+            data-testid={ `${i}-horizontal-favorite-btn` }
+            type="button"
+          >
+            <img
+              data-testid="favorite-btn"
+              src={ blackHeart }
+              alt="heart"
+            />
+          </button>
 
-      <p data-testid={ `${index}-horizontal-top-text` }>Categoria</p>
+        </div>
+      )))}
 
-      <p data-testid={ `${index}-horizontal-name` }>Nome da receita</p>
+      { favDrinks.lenght > 0 && (favDrinks.map((fav, i) => (
+        <div key={ i }>
+          <img
+            data-testid={ `${i}-horizontal-image` }
+            src={ fav.image }
+            alt={ fav.name }
+          />
+          <p data-testid={ `${i}-horizontal-name` }>{ fav.name }</p>
+          <p data-testid={ `${i}-horizontal-top-text` }>
+            { fav.alcoholicOrNot }
+          </p>
+          <ShareBtn />
+          <button
+            data-testid={ `${i}-horizontal-favorite-btn` }
+            type="button"
+          >
+            <img
+              data-testid="favorite-btn"
+              src={ blackHeart }
+              alt="heart"
+            />
+          </button>
 
-      <ShareBtn />
+        </div>
+      )))}
 
       <Footer />
-      <FavoriteBtn />
     </div>
   );
 }
