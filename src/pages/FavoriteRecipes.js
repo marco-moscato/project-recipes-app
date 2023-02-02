@@ -1,13 +1,12 @@
 import React, { useContext } from 'react';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
-// import DoneRecipes from './DoneRecipes';
 import FavoritesContext from '../context/FavoritesContext';
 import ShareBtn from '../components/ShareBtn';
+import FavoriteBtn from '../components/FavoriteBtn';
 
 function FavoriteRecipes() {
   const { favMeals, favDrinks } = useContext(FavoritesContext);
-  console.log(favDrinks);
 
   return (
     <div>
@@ -15,23 +14,42 @@ function FavoriteRecipes() {
         title="Favorite Recipes"
         haveSearch={ false }
       />
-      {/* <DoneRecipes /> */}
 
-      { favMeals.map((fav) => (
-        <div key={ fav.id }>
-          FavoriteMeals
-          <img src={ fav.img } alt={ fav.name } />
-          Foto da receita
-          <p>{ fav.name }</p>
-          <div data-testid={ `${fav.id}-horizontal-top-text` }>
-            {`${fav.nationality} - ${fav.category}` }
-          </div>
-          <ShareBtn />
-          {/* renderizar botão favorites */}
-        </div>
-      ))}
+      <button
+        data-testid="filter-by-meal-btn"
+        type="button"
+        onClick={ () => setPath('meal') }
+      >
+        Meals
+      </button>
+
+      <button
+        data-testid="filter-by-drink-btn"
+        type="button"
+        onClick={ () => setPath('drink') }
+      >
+        Drinks
+      </button>
+
+      <button
+        data-testid="filter-by-all-btn"
+        type="button"
+        onClick={ () => setPath('') }
+      >
+        All
+      </button>
+
+      <img data-testid={ `${index}-horizontal-imag` } src="" alt="" />
+      Imagem da receita
+
+      <p data-testid={ `${index}-horizontal-top-text` }>Categoria</p>
+
+      <p data-testid={ `${index}-horizontal-name` }>Nome da receita</p>
+
+      <ShareBtn />
 
       <Footer />
+      <FavoriteBtn />
     </div>
   );
 }
