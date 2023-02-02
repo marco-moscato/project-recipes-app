@@ -49,12 +49,22 @@ const mockRecipes = [{
   tags: [],
 }];
 
-describe('Testa o componente Footer', () => {
+jest.useFakeTimers();
+jest.spyOn(global, 'setTimeout');
+
+Object.assign(navigator, {
+  clipboard: {
+    writeText: () => {},
+  },
+});
+jest.spyOn(navigator.clipboard, 'writeText');
+
+const doneRecipes = 'doneRecipes';
+
+describe('Testes da Página Done Recipes', () => {
   const setItem = (jsonId, newJson) => {
     window.localStorage.setItem(jsonId, JSON.stringify(newJson));
   };
-
-  const doneRecipes = 'doneRecipes';
 
   beforeAll(() => {
     setItem(doneRecipes, mockRecipes);
@@ -80,12 +90,21 @@ describe('Testa o componente Footer', () => {
     expect(meal).not.toBeVisible();
   });
 
+  it('Ao clicar no botão share, o link é copiado', () => {
+    renderWithRouter(<DoneRecipes />);
+    const shareButtonn = screen.getByTestId('0-share-btn');
+    userEvent.click(shareButtonn);
+    expect(navigator.clipboard.writeText).toHaveBeenCalledTimes(1);
+    expect(navigator.clipboard.writeText).toHaveBeenCalledWith('http://localhost:3000/meals/53061');
+  });
+
   it('Testa se as receitas foram colocadas no localStorage', () => {
     renderWithRouter(<DoneRecipes />);
     const shareButton = screen.getByTestId('0-share-btn');
     userEvent.click(shareButton);
+    expect(setTimeout).toHaveBeenCalledTimes(1);
+    expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 2000);
     const copiedMessage = screen.findByTestId('link-copied');
     waitForElementToBeRemoved(() => copiedMessage);
-    // 'http://localhost:3000/meals/53061'
   });
 });
