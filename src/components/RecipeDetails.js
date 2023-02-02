@@ -213,6 +213,8 @@ const RecipeDetails = () => {
                   data-testid="start-recipe-btn"
                   type="button"
                   className="startRecipeBtn"
+                  onClick={ () => localStorage
+                    .setItem('recipeDetail', JSON.stringify(recipeDetail)) }
                 >
                   {textBtn}
                 </button>
