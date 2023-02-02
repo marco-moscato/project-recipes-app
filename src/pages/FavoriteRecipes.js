@@ -5,6 +5,7 @@ import Header from '../components/Header';
 import FavoritesContext from '../context/FavoritesContext';
 import ShareBtn from '../components/ShareBtn';
 
+
 function FavoriteRecipes() {
   const { favMeals, favDrinks } = useContext(FavoritesContext);
 
