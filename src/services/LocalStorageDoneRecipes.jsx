@@ -15,5 +15,5 @@ export const setOrGetLocalStorage = (key, param) => {
 export const removeItemFromLocalStorage = (key, ele) => {
   const filter = getLocalStorage(key).filter((fav) => fav.id !== ele.id);
   setLocalStorage(key, filter);
-  console.log(filter);
+  return filter;
 };
