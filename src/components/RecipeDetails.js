@@ -168,7 +168,7 @@ const RecipeDetails = () => {
               {Object.keys(recipe)
                 .filter((recipeKey) => recipeKey.includes('Ingredient'))
                 .map((ingredient, i) => (
-                  recipe[ingredient] !== null
+                  recipe[ingredient] !== null && recipe[ingredient] !== ''
                     ? (
                       <li
                         data-testid={ `${i}-ingredient-name-and-measure` }
@@ -213,8 +213,6 @@ const RecipeDetails = () => {
                   data-testid="start-recipe-btn"
                   type="button"
                   className="startRecipeBtn"
-                  onClick={ () => localStorage
-                    .setItem('recipeDetail', JSON.stringify(recipeDetail)) }
                 >
                   {textBtn}
                 </button>

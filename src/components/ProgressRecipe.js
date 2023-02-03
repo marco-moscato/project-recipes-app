@@ -7,7 +7,6 @@ import ShareBtn from './ShareBtn';
 
 function ProgressRecipe() {
   const { location } = useHistory();
-  const [url, setUrl] = useState('');
   const [recipeDetail, setRecipeDetail] = useState(null);
   const [path, setPath] = useState('');
   const [thumb, setThumb] = useState('');
@@ -16,21 +15,14 @@ function ProgressRecipe() {
   const [cat, setCat] = useState('');
   const [alcoholic, setAlcoholic] = useState('');
   const [recipeId, setRecipeId] = useState('');
+  const [url, setUrl] = useState('');
 
   console.log(recipeDetail);
-  // const progressRecipe = {
-  //   drinks: {
-  //     15997: [],
-  //   },
-  //   meals: {
-  //     52977: [],
-  //   },
-  // };
 
-  // const fetchRecipe = async (param) => {
-  //   const api = await fetchRecipes(param);
-  //   setRecipeDetail(api);
-  // };
+  const fetchRecipe = async (param) => {
+    const api = await fetchRecipes(param);
+    setRecipeDetail(api);
+  };
 
   useEffect(() => {
     if (location.pathname.includes('/meals')) {
@@ -59,10 +51,8 @@ function ProgressRecipe() {
   }, []);
 
   useEffect(() => {
-    setRecipeDetail(() => JSON.parse(localStorage.getItem('recipeDetail')));
-  }, []);
-
-  console.log(recipeDetail);
+    fetchRecipe(url);
+  }, [url]);
 
   return (
     (recipeDetail && (recipeDetail[path].map((recipe, index) => (
@@ -84,14 +74,21 @@ function ProgressRecipe() {
           {Object.keys(recipe)
             .filter((recipeKey) => recipeKey.includes('Ingredient'))
             .map((ingredient, i) => (
-              recipe[ingredient] !== null
+              recipe[ingredient] !== '' && recipe[ingredient] !== null
                 ? (
-                  <li
-                    data-testid={ `${i}-ingredient-name-and-measure` }
-                    key={ `ingredient${i}` }
+                  <label
+                    key={ recipe[ingredient] }
+                    data-testid={ `${i}-ingredient-step` }
+                    htmlFor={ `ingredient${i}` }
                   >
+                    <input
+                      data-testid={ `${i}-ingredient-name-and-measure` }
+                      key={ `ingredient${i}` }
+                      id={ `ingredient${i}` }
+                      type="checkbox"
+                    />
                     { `${recipe[ingredient]} ${recipe[`strMeasure${i + 1}`]}`}
-                  </li>
+                  </label>
                 )
                 : null
             ))}
