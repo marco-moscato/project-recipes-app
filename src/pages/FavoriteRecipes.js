@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import FavoritesContext from '../context/FavoritesContext';
@@ -7,7 +8,7 @@ import shareIcon from '../images/shareIcon.svg';
 
 function FavoriteRecipes() {
   const { favRecipes, copyToClickboard, modal,
-    removeFavorite } = useContext(FavoritesContext);
+    removeFavorite, handleFilters } = useContext(FavoritesContext);
 
   return (
     <div>
@@ -19,7 +20,8 @@ function FavoriteRecipes() {
       <button
         data-testid="filter-by-meal-btn"
         type="button"
-        // onClick={ () => setPath('meal') }
+        onClick={ (e) => handleFilters(e) }
+        name="filter-by-meal-btn"
       >
         Meals
       </button>
@@ -27,7 +29,8 @@ function FavoriteRecipes() {
       <button
         data-testid="filter-by-drink-btn"
         type="button"
-        // onClick={ () => setPath('drink') }
+        name="filter-by-drink-btn"
+        onClick={ (e) => handleFilters(e) }
       >
         Drinks
       </button>
@@ -35,7 +38,8 @@ function FavoriteRecipes() {
       <button
         data-testid="filter-by-all-btn"
         type="button"
-        // onClick={ () => setPath('') }
+        name="filter-all"
+        onClick={ (e) => handleFilters(e) }
       >
         All
       </button>
@@ -64,7 +68,6 @@ function FavoriteRecipes() {
           <button
             type="button"
             onClick={ (e) => removeFavorite(fav, e) }
-
           >
             <img
               data-testid={ `${i}-horizontal-favorite-btn` }
@@ -73,11 +76,13 @@ function FavoriteRecipes() {
             />
           </button>
 
-          <img
-            data-testid={ `${i}-horizontal-image` }
-            src={ fav.image }
-            alt={ fav.name }
-          />
+          <Link to={ `/${fav.type}s/:${fav.id}` }>
+            <img
+              data-testid={ `${i}-horizontal-image` }
+              src={ fav.image }
+              alt={ fav.name }
+            />
+          </Link>
           <p data-testid={ `${i}-horizontal-name` }>{ fav.name }</p>
           <p data-testid={ `${i}-horizontal-top-text` }>
             { `${fav.nationality} - ${fav.category}` }
