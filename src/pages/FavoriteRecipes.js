@@ -63,7 +63,7 @@ function FavoriteRecipes() {
 
           <button
             type="button"
-            onClick={ () => removeFavorite(fav) }
+            onClick={ (e) => removeFavorite(fav, e) }
 
           >
             <img
