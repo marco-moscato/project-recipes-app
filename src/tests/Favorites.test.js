@@ -1,8 +1,7 @@
 import React from 'react';
-import { fireEvent, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { renderWithRouter } from './RenderWith';
-import Meals from '../pages/Meals';
 import App from '../App';
 // import { mockAPI } from '../services/mockAPI';
 
