@@ -6,8 +6,8 @@ import blackHeart from '../images/blackHeartIcon.svg';
 import shareIcon from '../images/shareIcon.svg';
 
 function FavoriteRecipes() {
-  const { favRecipes, copyToClickboard, modal } = useContext(FavoritesContext);
-  console.log(copyToClickboard);
+  const { favRecipes, copyToClickboard, modal,
+    removeFavorite } = useContext(FavoritesContext);
 
   return (
     <div>
@@ -63,6 +63,7 @@ function FavoriteRecipes() {
 
           <button
             type="button"
+            onClick={ () => removeFavorite(fav) }
 
           >
             <img
