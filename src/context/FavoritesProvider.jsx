@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import FavoritesContext from './FavoritesContext';
-import { getLocalStorage, removeItemFromLocalStorage } from
+import { removeItemFromLocalStorage, getLocalStorage } from
   '../services/LocalStorageDoneRecipes';
 
 function FavoritesProvider({ children }) {
@@ -10,12 +10,11 @@ function FavoritesProvider({ children }) {
 
   useEffect(() => {
     const loadFavorites = () => {
-      const localStorage = getLocalStorage('favoriteRecipes');
-      if (localStorage !== []) {
-        setFavRecipes(localStorage);
-      }
+      const currentLS = localStorage.getItem('favoriteRecipes');
+      const parsedLS = currentLS ? JSON.parse(currentLS) : [];
+      return parsedLS;
     };
-    loadFavorites();
+    setFavRecipes(loadFavorites());
   }, []);
 
   const removeFavorite = (fav, e) => {
@@ -34,7 +33,7 @@ function FavoritesProvider({ children }) {
   };
 
   const handleFilters = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     const localStorage = getLocalStorage('favoriteRecipes');
     const { name } = e.target;
     if (name === 'filter-by-meal-btn') {
