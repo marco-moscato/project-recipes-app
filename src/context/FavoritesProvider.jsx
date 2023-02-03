@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import FavoritesContext from './FavoritesContext';
-import { getLocalStorage } from '../services/LocalStorageDoneRecipes';
+import { getLocalStorage, removeItemFromLocalStorage } from '../services/LocalStorageDoneRecipes';
 
 function FavoritesProvider({ children }) {
   const [favRecipes, setFavRecipes] = useState([]);
@@ -17,6 +17,11 @@ function FavoritesProvider({ children }) {
     loadFavorites();
   }, []);
 
+  const removeFavorite = (fav) => {
+    removeItemFromLocalStorage('favoriteRecipes', fav);
+    console.log(fav);
+  };
+
   const copyToClickboard = (recipe) => {
     const magicTimeout = 2000;
     const recipeURL = `http://localhost:3000/${recipe.type}s/${recipe.id}`;
@@ -30,13 +35,15 @@ function FavoritesProvider({ children }) {
   const contextValue = useMemo(
     () => ({
       favRecipes,
-      copyToClickboard,
       modal,
+      copyToClickboard,
+      removeFavorite,
     }),
     [
       favRecipes,
-      copyToClickboard,
       modal,
+      copyToClickboard,
+      removeFavorite,
     ],
   );
 
