@@ -14,8 +14,10 @@ function ProgressRecipe() {
   const [instruc, setInstruc] = useState('');
   const [cat, setCat] = useState('');
   const [alcoholic, setAlcoholic] = useState('');
-  const [recipeId, setRecipeId] = useState('');
+  // const [recipeId, setRecipeId] = useState('');
   const [url, setUrl] = useState('');
+  const [checkedIngredient, setCheckedIngredient] = useState(true);
+  const [classIngredient, setClassIngredient] = useState('');
 
   console.log(recipeDetail);
 
@@ -28,7 +30,7 @@ function ProgressRecipe() {
     if (location.pathname.includes('/meals')) {
       const editId = location.pathname.replace('/meals/', '');
       const id = editId.replace('/in-progress', '');
-      setRecipeId(id);
+      // setRecipeId(id);
       setUrl(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
       setPath('meals');
       setThumb('strMealThumb');
@@ -39,7 +41,7 @@ function ProgressRecipe() {
     if (location.pathname.includes('/drinks')) {
       const editId = location.pathname.replace('/drinks/', '', '/in-progress', '');
       const id = editId.replace('/in-progress', '');
-      setRecipeId(id);
+      // setRecipeId(id);
       setUrl(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`);
       setPath('drinks');
       setThumb('strDrinkThumb');
@@ -53,6 +55,14 @@ function ProgressRecipe() {
   useEffect(() => {
     fetchRecipe(url);
   }, [url]);
+
+  const handleChangeClass = ({ target }) => {
+    if (target.checked) {
+      target.parentElement.className = 'ingredient';
+    } else {
+      target.parentElement.className = '';
+    }
+  };
 
   return (
     (recipeDetail && (recipeDetail[path].map((recipe, index) => (
@@ -86,6 +96,7 @@ function ProgressRecipe() {
                       key={ `ingredient${i}` }
                       id={ `ingredient${i}` }
                       type="checkbox"
+                      onChange={ (event) => handleChangeClass(event) }
                     />
                     { `${recipe[ingredient]} ${recipe[`strMeasure${i + 1}`]}`}
                   </label>
@@ -106,7 +117,8 @@ function ProgressRecipe() {
           {' '}
           botão de finalizar receita
         </button>
-      </div>)))
+      </div>
+    )))
     ));
 }
 

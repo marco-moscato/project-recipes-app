@@ -67,3 +67,7 @@
     transform: rotate(-10deg);
   }
 }
+
+.ingredient {
+  text-decoration: line-through solid rgb(0, 0, 0);
+}
