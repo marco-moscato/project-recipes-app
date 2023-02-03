@@ -54,6 +54,16 @@ function FavoriteRecipes() {
       { favRecipes.map((fav, i) => (
         <div key={ i }>
 
+          <Link to={ `/${fav.type}s/${fav.id}` }>
+            <img
+              data-testid={ `${i}-horizontal-image` }
+              src={ fav.image }
+              alt={ fav.name }
+              style={ { height: '150px', size: '50%' } }
+            />
+            <p data-testid={ `${i}-horizontal-name` }>{ fav.name }</p>
+          </Link>
+
           <button
             type="button"
             onClick={ () => copyToClickboard(fav) }
@@ -76,14 +86,6 @@ function FavoriteRecipes() {
             />
           </button>
 
-          <Link to={ `/${fav.type}s/:${fav.id}` }>
-            <img
-              data-testid={ `${i}-horizontal-image` }
-              src={ fav.image }
-              alt={ fav.name }
-            />
-          </Link>
-          <p data-testid={ `${i}-horizontal-name` }>{ fav.name }</p>
           <p data-testid={ `${i}-horizontal-top-text` }>
             { `${fav.nationality} - ${fav.category}` }
           </p>
