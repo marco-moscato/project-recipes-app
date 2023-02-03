@@ -7,11 +7,10 @@ import { getLocalStorage } from '../services/LocalStorageDoneRecipes';
 function Profile() {
   const history = useHistory();
 
-  const [user, setUser] = useState('');
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const { email } = getLocalStorage('user') || { email: '' };
-    setUser(email);
+    setUser(getLocalStorage('user'));
   }, []);
 
   const clearLocalAndLogout = () => {
@@ -25,33 +24,37 @@ function Profile() {
         title="Profile"
         haveSearch={ false }
       />
-      <div>
-        <p data-testid="profile-email">
-          { user }
-        </p>
-      </div>
+      {
+        user
+      && (
+        <div>
+          <p data-testid="profile-email">
+            { user.email }
+          </p>
 
-      <button
-        type="button"
-        data-testid="profile-done-btn"
-        onClick={ () => history.push('/done-recipes') }
-      >
-        Done Recipes
-      </button>
-      <button
-        type="button"
-        data-testid="profile-favorite-btn"
-        onClick={ () => history.push('/favorite-recipes') }
-      >
-        Favorite Recipes
-      </button>
-      <button
-        type="button"
-        data-testid="profile-logout-btn"
-        onClick={ () => clearLocalAndLogout() }
-      >
-        Logout
-      </button>
+          <button
+            type="button"
+            data-testid="profile-done-btn"
+            onClick={ () => history.push('/done-recipes') }
+          >
+            Done Recipes
+          </button>
+          <button
+            type="button"
+            data-testid="profile-favorite-btn"
+            onClick={ () => history.push('/favorite-recipes') }
+          >
+            Favorite Recipes
+          </button>
+          <button
+            type="button"
+            data-testid="profile-logout-btn"
+            onClick={ () => clearLocalAndLogout() }
+          >
+            Logout
+          </button>
+        </div>)
+      }
 
       <Footer />
     </div>

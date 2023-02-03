@@ -2,23 +2,24 @@ import React from 'react';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { renderWithRouter } from './RenderWith';
-import App from '../App';
 import Profile from '../pages/Profile';
 
 describe('Teste das features da página Profile', () => {
+  const setItem = (jsonId, newJson) => {
+    window.localStorage.setItem(jsonId, JSON.stringify(newJson));
+  };
+  const userMock = { email: 'teste@teste.com' };
+
+  beforeEach(() => {
+    setItem('user', userMock);
+  });
+
+  it('Testa se as receitas foram colocadas no localStorage', () => {
+    expect(localStorage.getItem('user')).toEqual(JSON.stringify(userMock));
+  });
+
   it('Testa se o email usado no Login é mostrado na tela', () => {
-    renderWithRouter(<App />);
-
-    userEvent.type(screen.getByPlaceholderText(/email/i), 'teste@teste.com');
-    userEvent.type(screen.getByPlaceholderText(/password/i), 'testeteste');
-
-    const loginBtn = screen.getByRole('button', { name: /enter/i });
-    expect(loginBtn).toBeEnabled();
-    userEvent.click(loginBtn);
-
-    const profileBtn = screen.getByRole('img', { name: /profile icon/i });
-    userEvent.click(profileBtn);
-
+    renderWithRouter(<Profile />);
     const userName = screen.getByText(/teste@teste\.com/i);
     expect(userName).toBeVisible();
   });
