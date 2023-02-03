@@ -5,6 +5,7 @@ import { getLocalStorage } from '../services/LocalStorageDoneRecipes';
 
 function FavoritesProvider({ children }) {
   const [favRecipes, setFavRecipes] = useState([]);
+  const [modal, setModal] = useState('none');
 
   useEffect(() => {
     const loadFavorites = () => {
@@ -16,12 +17,26 @@ function FavoritesProvider({ children }) {
     loadFavorites();
   }, []);
 
+  const copyToClickboard = (recipe) => {
+    const magicTimeout = 2000;
+    const recipeURL = `http://localhost:3000/${recipe.type}s/${recipe.id}`;
+    navigator.clipboard.writeText(recipeURL);
+    setModal('block');
+    setTimeout(() => {
+      setModal('none');
+    }, magicTimeout);
+  };
+
   const contextValue = useMemo(
     () => ({
       favRecipes,
+      copyToClickboard,
+      modal,
     }),
     [
       favRecipes,
+      copyToClickboard,
+      modal,
     ],
   );
 

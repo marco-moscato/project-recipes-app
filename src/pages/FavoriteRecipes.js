@@ -6,7 +6,8 @@ import blackHeart from '../images/blackHeartIcon.svg';
 import shareIcon from '../images/shareIcon.svg';
 
 function FavoriteRecipes() {
-  const { favRecipes } = useContext(FavoritesContext);
+  const { favRecipes, copyToClickboard, modal } = useContext(FavoritesContext);
+  console.log(copyToClickboard);
 
   return (
     <div>
@@ -39,20 +40,19 @@ function FavoriteRecipes() {
         All
       </button>
 
+      <p
+        data-testid="link-copied"
+        style={ { display: [modal] } }
+      >
+        Link copied!
+      </p>
+
       { favRecipes.map((fav, i) => (
         <div key={ i }>
-          <img
-            data-testid={ `${i}-horizontal-image` }
-            src={ fav.image }
-            alt={ fav.name }
-          />
-          <p data-testid={ `${i}-horizontal-name` }>{ fav.name }</p>
-          <p data-testid={ `${i}-horizontal-top-text` }>
-            { `${fav.nationality} - ${fav.category}` }
-          </p>
 
           <button
             type="button"
+            onClick={ () => copyToClickboard(fav) }
           >
             <img
               data-testid={ `${i}-horizontal-share-btn` }
@@ -62,8 +62,8 @@ function FavoriteRecipes() {
           </button>
 
           <button
-            // data-testid={ `${i}-horizontal-favorite-btn` }
             type="button"
+
           >
             <img
               data-testid={ `${i}-horizontal-favorite-btn` }
@@ -71,6 +71,18 @@ function FavoriteRecipes() {
               alt="heart"
             />
           </button>
+
+          <img
+            data-testid={ `${i}-horizontal-image` }
+            src={ fav.image }
+            alt={ fav.name }
+          />
+          <p data-testid={ `${i}-horizontal-name` }>{ fav.name }</p>
+          <p data-testid={ `${i}-horizontal-top-text` }>
+            { `${fav.nationality} - ${fav.category}` }
+          </p>
+          { fav.type === 'drink'
+          && <p data-testid={ `${i}-horizontal-top-text` }>{ fav.alcoholicOrNot }</p>}
 
         </div>
       ))}
