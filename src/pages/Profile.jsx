@@ -7,12 +7,17 @@ import { getLocalStorage } from '../services/LocalStorageDoneRecipes';
 function Profile() {
   const history = useHistory();
 
-  const [user, setUser] = useState();
+  const [user, setUser] = useState('');
 
   useEffect(() => {
     const { email } = getLocalStorage('user');
     setUser(email);
   }, []);
+
+  const clearLocalAndLogout = () => {
+    localStorage.clear();
+    history.push('/');
+  };
 
   return (
     <div>
@@ -36,14 +41,14 @@ function Profile() {
       <button
         type="button"
         data-testid="profile-favorite-btn"
-        // onClick={ () => history.push('/done-recipes') }
+        onClick={ () => history.push('/favorite-recipes') }
       >
         Favorite Recipes
       </button>
       <button
         type="button"
         data-testid="profile-logout-btn"
-        // onClick={ () => history.push('/done-recipes') }
+        onClick={ () => clearLocalAndLogout() }
       >
         Logout
       </button>
@@ -52,10 +57,5 @@ function Profile() {
     </div>
   );
 }
-
-// O elemento de email deve possuir o atributo data-testid="profile-email";
-// O botão para "Done Recipes" deve possuir o atributo data-testid="profile-done-btn";
-// O botão para "Favorite Recipes" deve possuir o atributo data-testid="profile-favorite-btn";
-// O botão de "Logout" deve possuir o atributo data-testid="profile-logout-btn".
 
 export default Profile;
