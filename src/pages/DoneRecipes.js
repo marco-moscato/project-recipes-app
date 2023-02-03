@@ -11,7 +11,7 @@ function DoneRecipes() {
   const [doneRecipes, setDoneRecipes] = useState([]);
 
   useEffect(() => {
-    setDoneRecipes(getLocalStorage('doneRecipes'));
+    setDoneRecipes(getLocalStorage('doneRecipes') || []);
   }, []);
 
   const doneRecipesFilter = (localStorage) => {
