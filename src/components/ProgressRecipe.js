@@ -14,12 +14,17 @@ function ProgressRecipe() {
   const [instruc, setInstruc] = useState('');
   const [cat, setCat] = useState('');
   const [alcoholic, setAlcoholic] = useState('');
-  // const [recipeId, setRecipeId] = useState('');
+  const [recipeId, setRecipeId] = useState('');
   const [url, setUrl] = useState('');
-  const [checkedIngredient, setCheckedIngredient] = useState(true);
-  const [classIngredient, setClassIngredient] = useState('');
+  // const [checkedIngredient, setCheckedIngredient] = useState(true);
+  // const [classIngredient, setClassIngredient] = useState('');
+  // const [storage, setStorage] = useState({
+  //   [path]: {
+  //     [recipeId]: [],
+  //   },
+  // });
 
-  console.log(recipeDetail);
+  // console.log(recipeDetail);
 
   const fetchRecipe = async (param) => {
     const api = await fetchRecipes(param);
@@ -30,7 +35,7 @@ function ProgressRecipe() {
     if (location.pathname.includes('/meals')) {
       const editId = location.pathname.replace('/meals/', '');
       const id = editId.replace('/in-progress', '');
-      // setRecipeId(id);
+      setRecipeId(id);
       setUrl(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
       setPath('meals');
       setThumb('strMealThumb');
@@ -39,9 +44,9 @@ function ProgressRecipe() {
       setInstruc('strInstructions');
     }
     if (location.pathname.includes('/drinks')) {
-      const editId = location.pathname.replace('/drinks/', '', '/in-progress', '');
+      const editId = location.pathname.replace('/drinks/', '');
       const id = editId.replace('/in-progress', '');
-      // setRecipeId(id);
+      setRecipeId(id);
       setUrl(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`);
       setPath('drinks');
       setThumb('strDrinkThumb');
@@ -52,16 +57,55 @@ function ProgressRecipe() {
     }
   }, []);
 
+  // const setLocalStorage = (param) => {
+  //   localStorage.setItem('inProgressRecipes', JSON.stringify(param));
+  // };
+  // const getLocalStorage = () => JSON.parse(localStorage.getItem('inProgressRecipes'));
+
   useEffect(() => {
     fetchRecipe(url);
+    // if (getLocalStorage() !== null) {
+    //   if (getLocalStorage()[path]) {
+    //     setStorage(getLocalStorage());
+    //   } else {
+    //     const obj = {
+    //       ...getLocalStorage(),
+    //       [path]: {
+    //         [recipeId]: [],
+    //       },
+    //     };
+    //     setStorage(obj);
+    //   }
+    // } else {
+    //   const obj = {
+    //     ...getLocalStorage(),
+    //     [path]: {
+    //       [recipeId]: [],
+    //     },
+    //   };
+    //   setStorage(obj);
+    // }
   }, [url]);
 
   const handleChangeClass = ({ target }) => {
+    // let arr = storage[path][recipeId];
     if (target.checked) {
       target.parentElement.className = 'ingredient';
+      // arr.push(target.className);
     } else {
       target.parentElement.className = '';
+      // arr = storage[path][recipeId].filter((e) => e === target.className);
+      // console.log(arr);
     }
+    // const obj = {
+    //   ...storage,
+    //   [path]: {
+    //     [recipeId]: arr,
+    //   },
+    // };
+    // setStorage(obj);
+    // setLocalStorage(storage);
+    // console.log(storage);
   };
 
   return (
@@ -95,10 +139,11 @@ function ProgressRecipe() {
                       data-testid={ `${i}-ingredient-name-and-measure` }
                       key={ `ingredient${i}` }
                       id={ `ingredient${i}` }
+                      className={ ingredient }
                       type="checkbox"
                       onChange={ (event) => handleChangeClass(event) }
                     />
-                    { `${recipe[ingredient]} ${recipe[`strMeasure${i + 1}`]}`}
+                    { `${recipe[`strMeasure${i + 1}`]}${recipe[ingredient]}`}
                   </label>
                 )
                 : null
