@@ -17,9 +17,9 @@ function FavoritesProvider({ children }) {
     loadFavorites();
   }, []);
 
-  const removeFavorite = (fav) => {
-    removeItemFromLocalStorage('favoriteRecipes', fav);
-    console.log(fav);
+  const removeFavorite = (fav, e) => {
+    e.preventDefault();
+    setFavRecipes(removeItemFromLocalStorage('favoriteRecipes', fav));
   };
 
   const copyToClickboard = (recipe) => {
