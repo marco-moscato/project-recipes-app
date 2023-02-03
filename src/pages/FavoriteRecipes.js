@@ -2,12 +2,11 @@ import React, { useContext } from 'react';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import FavoritesContext from '../context/FavoritesContext';
-import ShareBtn from '../components/ShareBtn';
-// import blackHeart from '../images/blackHeartIcon.svg';
-// import RecipesContext from '../context/RecipesContext';
+import blackHeart from '../images/blackHeartIcon.svg';
+import shareIcon from '../images/shareIcon.svg';
 
 function FavoriteRecipes() {
-  const { favMeals, favDrinks } = useContext(FavoritesContext);
+  const { favRecipes } = useContext(FavoritesContext);
 
   return (
     <div>
@@ -40,7 +39,7 @@ function FavoriteRecipes() {
         All
       </button>
 
-      { favMeals.lenght > 0 && (favMeals.map((fav, i) => (
+      { favRecipes.map((fav, i) => (
         <div key={ i }>
           <img
             data-testid={ `${i}-horizontal-image` }
@@ -51,46 +50,30 @@ function FavoriteRecipes() {
           <p data-testid={ `${i}-horizontal-top-text` }>
             { `${fav.nationality} - ${fav.category}` }
           </p>
-          <ShareBtn />
+
           <button
-            data-testid={ `${i}-horizontal-favorite-btn` }
             type="button"
           >
             <img
-              data-testid="favorite-btn"
+              data-testid={ `${i}-horizontal-share-btn` }
+              src={ shareIcon }
+              alt="share"
+            />
+          </button>
+
+          <button
+            // data-testid={ `${i}-horizontal-favorite-btn` }
+            type="button"
+          >
+            <img
+              data-testid={ `${i}-horizontal-favorite-btn` }
               src={ blackHeart }
               alt="heart"
             />
           </button>
 
         </div>
-      )))}
-
-      { favDrinks.lenght > 0 && (favDrinks.map((fav, i) => (
-        <div key={ i }>
-          <img
-            data-testid={ `${i}-horizontal-image` }
-            src={ fav.image }
-            alt={ fav.name }
-          />
-          <p data-testid={ `${i}-horizontal-name` }>{ fav.name }</p>
-          <p data-testid={ `${i}-horizontal-top-text` }>
-            { fav.alcoholicOrNot }
-          </p>
-          <ShareBtn />
-          <button
-            data-testid={ `${i}-horizontal-favorite-btn` }
-            type="button"
-          >
-            <img
-              data-testid="favorite-btn"
-              src={ blackHeart }
-              alt="heart"
-            />
-          </button>
-
-        </div>
-      )))}
+      ))}
 
       <Footer />
     </div>
