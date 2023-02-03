@@ -4,28 +4,24 @@ import FavoritesContext from './FavoritesContext';
 import { getLocalStorage } from '../services/LocalStorageDoneRecipes';
 
 function FavoritesProvider({ children }) {
-  const [favMeals, setFavMeals] = useState([]);
-  const [favDrinks, setFavDrinks] = useState([]);
-
-  const loadFavorites = () => {
-    if (getLocalStorage !== null) {
-      getLocalStorage('favoriteRecipes')
-        .filter((fav) => (fav.type === 'meal' ? setFavMeals(fav) : setFavDrinks(fav)));
-    }
-  };
+  const [favRecipes, setFavRecipes] = useState([]);
 
   useEffect(() => {
+    const loadFavorites = () => {
+      const localStorage = getLocalStorage('favoriteRecipes');
+      if (localStorage !== []) {
+        setFavRecipes(localStorage);
+      }
+    };
     loadFavorites();
   }, []);
 
   const contextValue = useMemo(
     () => ({
-      favMeals,
-      favDrinks,
+      favRecipes,
     }),
     [
-      favMeals,
-      favDrinks,
+      favRecipes,
     ],
   );
 
