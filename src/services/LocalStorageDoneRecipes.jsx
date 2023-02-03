@@ -10,6 +10,10 @@ export const setOrGetLocalStorage = (key, param) => {
     setLocalStorage(getSaved);
   } else {
     localStorage.setItem(key, JSON.stringify([]));
-    // console.log('done');
   }
+};
+export const removeItemFromLocalStorage = (key, ele) => {
+  const filter = getLocalStorage(key).filter((fav) => fav.id !== ele.id);
+  setLocalStorage(key, filter);
+  console.log(filter);
 };
