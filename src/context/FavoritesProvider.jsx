@@ -1,7 +1,8 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import FavoritesContext from './FavoritesContext';
-import { getLocalStorage, removeItemFromLocalStorage } from '../services/LocalStorageDoneRecipes';
+import { getLocalStorage, removeItemFromLocalStorage } from
+  '../services/LocalStorageDoneRecipes';
 
 function FavoritesProvider({ children }) {
   const [favRecipes, setFavRecipes] = useState([]);
@@ -32,18 +33,37 @@ function FavoritesProvider({ children }) {
     }, magicTimeout);
   };
 
+  const handleFilters = (e) => {
+    e.preventDefault();
+    const localStorage = getLocalStorage('favoriteRecipes');
+    const { name } = e.target;
+    if (name === 'filter-by-meal-btn') {
+      const filter = localStorage.filter((fav) => fav.type === 'meal');
+      setFavRecipes(filter);
+    }
+    if (name === 'filter-by-drink-btn') {
+      const filter = localStorage.filter((fav) => fav.type === 'drink');
+      setFavRecipes(filter);
+    }
+    if (name === 'filter-all') {
+      setFavRecipes(localStorage);
+    }
+  };
+
   const contextValue = useMemo(
     () => ({
       favRecipes,
       modal,
       copyToClickboard,
       removeFavorite,
+      handleFilters,
     }),
     [
       favRecipes,
       modal,
       copyToClickboard,
       removeFavorite,
+      handleFilters,
     ],
   );
 
