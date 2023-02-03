@@ -10,7 +10,7 @@ function Profile() {
   const [user, setUser] = useState('');
 
   useEffect(() => {
-    const { email } = getLocalStorage('user');
+    const { email } = getLocalStorage('user') || { email: '' };
     setUser(email);
   }, []);
 
