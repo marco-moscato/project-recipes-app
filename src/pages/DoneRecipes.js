@@ -8,7 +8,7 @@ import { getLocalStorage } from '../services/LocalStorageDoneRecipes';
 function DoneRecipes() {
   const [path, setPath] = useState('');
   const [modal, setModal] = useState('none');
-  const [doneRecipes, setDoneRecipes] = useState([]);
+  const [doneRecipes, setDoneRecipes] = useState(null);
 
   useEffect(() => {
     setDoneRecipes(getLocalStorage('doneRecipes'));
@@ -25,9 +25,7 @@ function DoneRecipes() {
     const recipeURL = `http://localhost:3000/${recipe.type}s/${recipe.id}`;
     navigator.clipboard.writeText(recipeURL);
     setModal('block');
-    setTimeout(() => {
-      setModal('none');
-    }, magicTimeout);
+    setTimeout(() => setModal('none'), magicTimeout);
   };
 
   const magicTag = 2;
@@ -70,7 +68,7 @@ function DoneRecipes() {
       </p>
 
       <div>
-        { doneRecipesFilter(doneRecipes).map((rec, index) => (
+        { doneRecipes && doneRecipesFilter(doneRecipes).map((rec, index) => (
           (rec.type.includes(path))
             && (
               <div key={ rec.name }>
@@ -93,7 +91,9 @@ function DoneRecipes() {
                   { rec.alcoholicOrNot ? (
                     rec.alcoholicOrNot
                   )
-                    : `${rec.nationality} - ${rec.category}`}
+                    : (
+                      `${rec.nationality} - ${rec.category}`
+                    )}
                 </p>
 
                 <p data-testid={ `${index}-horizontal-done-date` }>
