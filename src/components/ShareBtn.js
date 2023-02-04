@@ -9,8 +9,6 @@ function ShareBtn() {
   const { location } = useHistory();
   const magic2000 = 2000;
 
-  console.log(location);
-
   const handleClick = () => {
     clipboardCopy((`http://localhost:3000${location.pathname}`));
     setModal('block');

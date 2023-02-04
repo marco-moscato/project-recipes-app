@@ -1,13 +1,14 @@
 import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
-// import DoneRecipes from './DoneRecipes';
 import FavoritesContext from '../context/FavoritesContext';
-import ShareBtn from '../components/ShareBtn';
+import blackHeart from '../images/blackHeartIcon.svg';
+import shareIcon from '../images/shareIcon.svg';
 
 function FavoriteRecipes() {
-  const { favMeals, favDrinks } = useContext(FavoritesContext);
-  console.log(favDrinks);
+  const { favRecipes, copyToClickboard, modal,
+    removeFavorite, handleFilters } = useContext(FavoritesContext);
 
   return (
     <div>
@@ -15,19 +16,82 @@ function FavoriteRecipes() {
         title="Favorite Recipes"
         haveSearch={ false }
       />
-      {/* <DoneRecipes /> */}
 
-      { favMeals.map((fav) => (
-        <div key={ fav.id }>
-          FavoriteMeals
-          <img src={ fav.img } alt={ fav.name } />
-          Foto da receita
-          <p>{ fav.name }</p>
-          <div data-testid={ `${fav.id}-horizontal-top-text` }>
-            {`${fav.nationality} - ${fav.category}` }
-          </div>
-          <ShareBtn />
-          {/* renderizar botão favorites */}
+      <button
+        data-testid="filter-by-meal-btn"
+        type="button"
+        onClick={ (e) => handleFilters(e) }
+        name="filter-by-meal-btn"
+      >
+        Meals
+      </button>
+
+      <button
+        data-testid="filter-by-drink-btn"
+        type="button"
+        name="filter-by-drink-btn"
+        onClick={ (e) => handleFilters(e) }
+      >
+        Drinks
+      </button>
+
+      <button
+        data-testid="filter-by-all-btn"
+        type="button"
+        name="filter-all"
+        onClick={ (e) => handleFilters(e) }
+      >
+        All
+      </button>
+
+      <p
+        data-testid="link-copied"
+        style={ { display: [modal] } }
+      >
+        Link copied!
+      </p>
+
+      { favRecipes.map((fav, i) => (
+        <div key={ i }>
+
+          <Link to={ `/${fav.type}s/${fav.id}` }>
+            <img
+              data-testid={ `${i}-horizontal-image` }
+              src={ fav.image }
+              alt={ fav.name }
+              style={ { height: '150px', size: '50%' } }
+            />
+            <p data-testid={ `${i}-horizontal-name` }>{ fav.name }</p>
+          </Link>
+
+          <button
+            type="button"
+            onClick={ () => copyToClickboard(fav) }
+          >
+            <img
+              data-testid={ `${i}-horizontal-share-btn` }
+              src={ shareIcon }
+              alt="share"
+            />
+          </button>
+
+          <button
+            type="button"
+            onClick={ (e) => removeFavorite(fav, e) }
+          >
+            <img
+              data-testid={ `${i}-horizontal-favorite-btn` }
+              src={ blackHeart }
+              alt="heart"
+            />
+          </button>
+
+          <p data-testid={ `${i}-horizontal-top-text` }>
+            { `${fav.nationality} - ${fav.category}` }
+          </p>
+          { fav.type === 'drink'
+          && <p data-testid={ `${i}-horizontal-top-text` }>{ fav.alcoholicOrNot }</p>}
+
         </div>
       ))}
 
