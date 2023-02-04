@@ -16,6 +16,7 @@ function ProgressRecipe() {
   const [alcoholic, setAlcoholic] = useState('');
   const [recipeId, setRecipeId] = useState('');
   const [url, setUrl] = useState('');
+  console.log(recipeId);
   // const [checkedIngredient, setCheckedIngredient] = useState(true);
   // const [classIngredient, setClassIngredient] = useState('');
   // const [storage, setStorage] = useState({
