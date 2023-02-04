@@ -10,11 +10,20 @@ function ShareBtn() {
   const magic2000 = 2000;
 
   const handleClick = () => {
-    clipboardCopy((`http://localhost:3000${location.pathname}`));
-    setModal('block');
-    setTimeout(() => {
-      setModal('none');
-    }, magic2000);
+    if (location.pathname.includes('/in-progress')) {
+      const path = location.pathname.replace('/in-progress', '');
+      clipboardCopy((`http://localhost:3000${path}`));
+      setModal('block');
+      setTimeout(() => {
+        setModal('none');
+      }, magic2000);
+    } else {
+      clipboardCopy((`http://localhost:3000${location.pathname}`));
+      setModal('block');
+      setTimeout(() => {
+        setModal('none');
+      }, magic2000);
+    }
   };
 
   return (
